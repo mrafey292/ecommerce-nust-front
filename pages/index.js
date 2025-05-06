@@ -1,4 +1,4 @@
-import { mongooseConnect } from "@/lib/mongoose";
+import mongooseConnect from "@/lib/mongoose";
 import { Product } from "@/models/Product";
 import React, { useContext } from "react";
 import { CartContext } from "@/components/CartContext";
@@ -44,9 +44,24 @@ export default function HomePage({ newProducts }) {
   );
 }
 
+// export async function getServerSideProps() {
+//   await mongooseConnect();
+//   const newProducts = await Product.find({}, null, { sort: { _id: -1 }, limit: 10 });
+//   return {
+//     props: {
+//       newProducts: JSON.parse(JSON.stringify(newProducts)),
+//     },
+//   };
+// }
+
 export async function getServerSideProps() {
   await mongooseConnect();
-  const newProducts = await Product.find({}, null, { sort: { _id: -1 }, limit: 10 });
+  const newProducts = await Product.find(
+    {}, 
+    null, 
+    { sort: { _id: -1 }, limit: 10 }
+  );
+  console.log("💾 fetched products:", newProducts);
   return {
     props: {
       newProducts: JSON.parse(JSON.stringify(newProducts)),
