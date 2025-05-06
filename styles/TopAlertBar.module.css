@@ -1,0 +1,29 @@
+.bar {
+    position: sticky;
+    background-color: #7c0d1b;
+    color: white;
+    font-size: 0.85rem;
+    padding: 0.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .left, .center, .right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .link a {
+    color: #ffe;
+    text-decoration: underline;
+    font-weight: 500;
+  }
+  
+  .right svg {
+    margin-right: 0.3rem;
+  }
+  

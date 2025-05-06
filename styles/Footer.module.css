@@ -1,0 +1,126 @@
+.footer {
+    background: #f8f8f8;
+    color: #333;
+    padding: 60px 0 30px;
+  }
+  
+  .footerContainer {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+  .newsletter {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+  
+  .newsletter h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .newsletter p {
+    color: #666;
+    margin-bottom: 20px;
+  }
+  
+  .newsletterForm {
+    display: flex;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  
+  .emailInput {
+    flex: 1;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-right: none;
+  }
+  
+  .subscribeButton {
+    padding: 12px 25px;
+    background: #000;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .footerLinks {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+  }
+  
+  .linksColumn h4 {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+  
+  .linksColumn ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .linksColumn li {
+    margin-bottom: 10px;
+  }
+  
+  .linksColumn a {
+    color: #666;
+    text-decoration: none;
+  }
+  
+  .linksColumn a:hover {
+    text-decoration: underline;
+  }
+  
+  .footerBottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 30px;
+    border-top: 1px solid #e0e0e0;
+  }
+  
+  .socialLinks {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .socialIcon {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    background: #333;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .legal {
+    text-align: center;
+    color: #666;
+    font-size: 14px;
+  }
+  
+  .legalLinks {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+    justify-content: center;
+  }
+  
+  .legalLinks a {
+    color: #666;
+    text-decoration: none;
+  }
+  
+  .legalLinks a:hover {
+    text-decoration: underline;
+  }

@@ -1,0 +1,51 @@
+.featuresContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 2rem 1rem;
+    border-top: 5px solid #80170e;
+    border-bottom: 5px solid #d83428;
+    max-width: 1200px;
+    margin: auto;
+    flex-wrap: wrap;
+  }
+  
+  .feature {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex: 1;
+    min-width: 240px;
+    border-right: 2px solid #000000;
+    padding: 0 1rem;
+  }
+  
+  .feature:last-child {
+    border-right: none;
+  }
+  
+  .icon {
+    color: #e11d48;
+    min-width: 36px;
+    height: 36px;
+  }
+  
+  .feature h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+  
+  .feature p {
+    margin: 0;
+    color: #333;
+    font-size: 0.9rem;
+  }
+  
+  .feature a {
+    color: black;
+    text-decoration: underline;
+    font-weight: 500;
+  }
+  
