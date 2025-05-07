@@ -1,65 +1,79 @@
+
 .heroContainer {
-    position: relative;
-    height: 600px;
-    overflow: hidden;
-  }
-  
-  .slide {
-    position: absolute;
-    width: 100%;
-    height: 600px;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    opacity: 0;
-    transition: opacity 1.2s ease-in-out;
-    z-index: 1;
-  }
-  
-  .active {
-    opacity: 1;
-    z-index: 2;
-  }
-  
-  .overlay {
-    position: relative;
-    z-index: 3;
-    padding-left: 5rem;
-    padding-top: 6rem;
-    max-width: 700px;
-    color: #2a0d0d;
-  }
-  
-  .overlay h1 {
-    font-size: 3rem;
-    font-weight: 800;
-    margin: 0.5rem 0;
-  }
-  
-  .overlay h3 {
-    font-size: 1.5rem;
-    color: #000000;
-  }
-  
-  .overlay h4 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #ffffff;
-  }
-  
-  .cta {
-    margin-top: 1.5rem;
-    background-color: #e63946;
-    color: white;
-    border: none;
-    padding: 0.75rem 2rem;
-    font-size: 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-  }
-  
-  .cta:hover {
-    transform: scale(1.05);
-  }
-  
+  position:relative;
+  height: 480px;
+  overflow: hidden;
+  margin: 0 auto; /* Centers the container */
+
+}
+
+.slide {
+  position: absolute;
+  width: 100%;
+  height: 480px;
+  background-size:cover;
+  background-position: center;
+  background-repeat: repeat;
+  opacity: 0;
+  transition: opacity 1.2s ease-in-out;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.active {
+  opacity: 1;
+  z-index: 2;
+}
+
+.overlay {
+  position: relative;
+  z-index: 3;
+  padding-left: 20rem;
+  padding-top: 9rem;
+  max-width: 700px;
+  color: #3a0808;
+}
+
+.overlay h1 {
+  margin-top: 100px;
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin: 0; /* Remove default margins */
+  line-height: 1; /* Tighten line height */
+  padding-bottom: 0.5rem; /* Small space below */
+}
+
+.overlay h3 {
+  font-size: 1.5rem;
+  font-weight: 200;
+  color: #3a0808;
+  margin: 0; /* Remove default margins */
+  line-height: 1.2; /* Slightly tighter line height */
+  padding-bottom: 0.5rem; /* Small space below */
+}
+
+.overlay h4 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #3a0808;
+  margin: 0; /* Remove default margins */
+  line-height: 1.2; /* Slightly tighter line height */
+}
+
+.cta {
+  margin-top: .5rem;
+  background-color:#d83428;
+  color: white;
+  border: none;
+  padding: 0.75rem 2rem;
+  font-size: 1rem;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.cta:hover {
+  transform: scale(1.1);
+  background-color:#80170e;
+
+}

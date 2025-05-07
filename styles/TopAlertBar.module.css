@@ -1,29 +1,60 @@
 .bar {
-    position: sticky;
-    background-color: #7c0d1b;
-    color: white;
-    font-size: 0.85rem;
-    padding: 0.5rem 2rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
-  
-  .left, .center, .right {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-  
-  .link a {
-    color: #ffe;
-    text-decoration: underline;
-    font-weight: 500;
-  }
-  
-  .right svg {
-    margin-right: 0.3rem;
-  }
-  
+  position: sticky;
+  top: 0;
+  background-color: #7c0d1b;
+  color: white;
+  font-size: 0.85rem;
+  padding: 0.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  z-index: 110;
+}
+
+.left, .right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.link {
+  color: #ffe;
+  text-decoration: underline;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.right svg {
+  margin-right: 0.3rem;
+}
+
+.center {
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+}
+
+.messageContainer {
+  position: relative;
+  height: 1.2rem;
+  overflow: hidden;
+}
+
+.message {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  transform: translateY(200%);
+  opacity: 0;
+  transition: all 0.5s ease;
+  white-space: nowrap;
+  /* scale: 0; */
+}
+
+.message.active {
+  transform: translateY(0);
+  opacity: 1;
+  /* scale: 1; */
+}

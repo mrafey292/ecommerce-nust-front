@@ -180,3 +180,22 @@
 .secureCheckout::before {
     content: "🔒";
 }
+
+/* Payment Icons Container */
+.paymentIcons {
+    margin: 0;
+    height: 200px;
+    display: flex;
+    margin-top: 0px;
+  }
+    
+  /* Secure Checkout Section */
+  .secureCheckout {
+    margin: 0;
+
+    text-align: center;
+    margin-top: 0px;
+    padding-top: 16px;
+    border-top: 1px solid #e1e3e5;
+  }
+  

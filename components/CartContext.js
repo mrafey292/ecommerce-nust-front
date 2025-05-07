@@ -1,15 +1,65 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 
-// Create context with proper initialization
-export const CartContext = createContext({
-  cartProducts: [],
-  addProduct: () => {},
-  removeProduct: () => {},
-  clearCart: () => {},
-  setCartProducts: () => {}
-});
+export const CartContext = createContext();
 
-// Custom hook with error handling
+export function CartProvider({ children }) {
+  const [cartProducts, setCartProducts] = useState([]);
+  const [products, setProducts] = useState([]); // Your full products list
+
+  const addProduct = (productId, quantity = 1) => {
+    setCartProducts(prev => {
+      const existingItem = prev.find(item => item.id === productId);
+      
+      if (existingItem) {
+        return prev.map(item =>
+          item.id === productId
+            ? { ...item, quantity: item.quantity + quantity }
+            : item
+        );
+      }
+      
+      return [...prev, { id: productId, quantity }];
+    });
+    return true;
+  };
+
+  const removeProduct = (productId, quantity = 1) => {
+    setCartProducts(prev => {
+      const existingItem = prev.find(item => item.id === productId);
+      
+      if (!existingItem) return prev;
+      
+      if (existingItem.quantity <= quantity) {
+        return prev.filter(item => item.id !== productId);
+      }
+      
+      return prev.map(item =>
+        item.id === productId
+          ? { ...item, quantity: item.quantity - quantity }
+          : item
+      );
+    });
+  };
+
+  const clearCart = () => {
+    setCartProducts([]);
+  };
+
+  return (
+    <CartContext.Provider 
+    value={{
+      products,
+      cartProducts,
+      addProduct,
+      removeProduct,
+      clearCart
+    }}
+    >
+      {children}
+    </CartContext.Provider>
+  );
+}
+
 export function useCart() {
   const context = useContext(CartContext);
   if (context === undefined) {
@@ -18,51 +68,4 @@ export function useCart() {
   return context;
 }
 
-// Provider component
-export default function CartProvider({ children }) {
-  const [cartProducts, setCartProducts] = useState([]);
-  const ls = typeof window !== "undefined" ? window.localStorage : null;
-
-  useEffect(() => {
-    if (ls && ls.getItem('cart')) {
-      setCartProducts(JSON.parse(ls.getItem('cart')));
-    }
-  }, [ls]);
-
-  useEffect(() => {
-    if (cartProducts.length > 0) {
-      ls?.setItem('cart', JSON.stringify(cartProducts));
-    }
-  }, [cartProducts, ls]);
-
-  const addProduct = (productId) => {
-    setCartProducts(prev => [...prev, productId]);
-  };
-
-  const removeProduct = (productId) => {
-    setCartProducts(prev => {
-      const pos = prev.indexOf(productId);
-      if (pos !== -1) {
-        return prev.filter((_, index) => index !== pos);
-      }
-      return prev;
-    });
-  };
-
-  const clearCart = () => {
-    setCartProducts([]);
-    ls?.removeItem('cart');
-  };
-
-  return (
-    <CartContext.Provider value={{
-      cartProducts,
-      setCartProducts,
-      addProduct,
-      removeProduct,
-      clearCart
-    }}>
-      {children}
-    </CartContext.Provider>
-  );
-}
+export default CartProvider;

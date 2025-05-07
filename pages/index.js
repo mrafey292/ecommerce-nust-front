@@ -14,6 +14,7 @@ import styles from "@/styles/Home.module.css";
 import TopAlertBar from "../components/TopAlertBar";
 import BestDeals from "@/components/BestDeals";
 import FeaturesBar from '@/components/FeaturesBar';
+import CategoriesSection from '../components/CategoriesSection';
 
 export default function HomePage({ newProducts }) {
   const { addProduct, removeProduct, cartProducts } = useCart();
@@ -34,6 +35,7 @@ export default function HomePage({ newProducts }) {
       <Hero />
       <FeaturesBar />
       <BestDeals products={newProducts} onAddToCart={addProduct} />
+      <CategoriesSection />
 
       <main className={styles.mainContent}>
         <FeaturedProducts

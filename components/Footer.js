@@ -73,7 +73,7 @@ export default function Footer() {
           </div>
           
           <div className={styles.legal}>
-            <p>&copy; {new Date().getFullYear()} Fashion Store. All rights reserved.</p>
+            <p>&copy; {new Date().getFullYear()} HRH Copyright bozo. All rights reserved.</p>
             <div className={styles.legalLinks}>
               <Link href="/privacy">Privacy Policy</Link>
               <Link href="/terms">Terms of Service</Link>

@@ -1,209 +1,35 @@
 .featuredProducts {
-    padding: 60px 40px;
-    max-width: 1400px;
-    margin: 0 auto;
-  }
-  
-  .sectionHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 40px;
-  }
-  
-  .sectionTitle {
-    font-size: 2.2rem;
-    color: #333;
-  }
-  
-  .viewAllLink {
-    color: #ff6b6b;
-    text-decoration: none;
-    font-weight: 600;
-    transition: color 0.3s;
-  }
-  
-  .viewAllLink:hover {
-    color: #ff5252;
-  }
-  
-  .productsGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 30px;
-  }
-  
-  .productCard {
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-    transition: all 0.3s ease;
-  }
-  
-  .productCard:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-  }
-  
-  .productImageContainer {
-    position: relative;
-    height: 300px;
-    overflow: hidden;
-  }
-  
-  .productImage {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s;
-    cursor: pointer;
-  }
-  
-  .productCard:hover .productImage {
-    transform: scale(1.05);
-  }
-  
-  .quickAddButton {
-    position: absolute;
-    bottom: 15px;
-    right: 15px;
-    padding: 8px 15px;
-    background-color: #ff6b6b;
-    color: white;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    opacity: 0;
-    transition: all 0.3s;
-  }
-  
-  .productCard:hover .quickAddButton {
-    opacity: 1;
-  }
-  
-  .productInfo {
-    padding: 20px;
-  }
-  
-  .productTitle {
-    font-size: 1.2rem;
-    margin-bottom: 8px;
-    color: #333;
-  }
-  
-  .productDescription {
-    color: #666;
-    margin-bottom: 15px;
-    font-size: 0.9rem;
-  }
-  
-  .productFooter {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .productPrice {
-    font-weight: bold;
-    font-size: 1.2rem;
-    color: #2d3436;
-  }
-  
-  .addToCart {
-    padding: 8px 16px;
-    background-color: #333;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .addToCart:hover {
-    background-color: #555;
-  }
-  
-  /* Quick View Modal */
-  .quickViewModal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-  }
-  
-  .modalContent {
-    background-color: white;
-    width: 90%;
-    max-width: 900px;
-    max-height: 90vh;
-    overflow-y: auto;
-    border-radius: 8px;
-    padding: 30px;
-    position: relative;
-  }
-  
-  .closeModal {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-  }
-  
-  .modalProduct {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 30px;
-  }
-  
-  .modalProductImage img {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-  }
-  
-  .modalProductInfo h3 {
-    font-size: 1.8rem;
-    margin-bottom: 15px;
-  }
-  
-  .price {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 20px;
-    color: #2d3436;
-  }
-  
-  .description {
-    margin-bottom: 25px;
-    line-height: 1.6;
-  }
-  
-  .productOptions {
-    margin-bottom: 25px;
-  }
-  
-  .option {
-    margin-bottom: 15px;
-  }
-  
-  .option label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 600;
-  }
-  
-  .option select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
+  padding: 2rem 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.sectionTitle {
+  font-size: 2rem;
+  margin: 0;
+}
+
+.viewAllLink {
+  color: #d83428;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.viewAllLink:hover {
+  color: #c12a1f;
+  text-decoration: underline;
+}
+
+.productsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+}

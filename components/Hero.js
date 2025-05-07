@@ -5,15 +5,15 @@ import Link from 'next/link';
 const slides = [
   {
     id: 1,
-    image: 'https://academy-cdn.wedio.com/2022/01/guide-for-food-photography-wedio.jpg',
+    image: '/imagesPull/hero1.jpg', // Note the leading slash
   },
   {
     id: 2,
-    image: 'https://images.pexels.com/photos/974911/pexels-photo-974911.jpeg',
+    image: '/imagesPull/hero2.jpg', // Note the leading slash
   },
   {
     id: 3,
-    image: 'https://uacreativestudios.com/wp-content/uploads/2016/04/HurierPhoto_April2016_LaughlinsBakery-7.jpg',
+    image: '/imagesPull/hero3.jpg', // Note the leading slash
   },
 ];
 
@@ -39,8 +39,10 @@ export default function Hero() {
 
       <div className={styles.overlay}>
         <h3>Easy, Fresh & Convenient</h3>
-        <h1>Stock Up on Daily Essentials</h1>
-        <h4>Save Big on Your Favorite Brands</h4>
+        <h1>Stock Up on <br/>
+          Daily Essentials</h1>
+        <h4>Save Big on Your <br/>
+           Favorite Brands</h4>
         <Link href="/shop">
           <button className={styles.cta}>Shop Now</button>
         </Link>
@@ -48,3 +50,6 @@ export default function Hero() {
     </div>
   );
 }
+
+
+

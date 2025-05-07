@@ -1,0 +1,113 @@
+.categoriesSection {
+    padding: 1rem 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    border-radius: 2px solid black;
+
+  }
+  
+  .sectionTitle {
+    text-align: left;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: #333;
+  }
+  
+  .categoriesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2.3rem 1rem ;
+  }
+  
+  .categoryWrapper {
+
+    position: relative;
+  }
+  
+  .categoryCard {
+    border: 0px solid #333;
+
+    background: white;
+    border-radius: 30px;
+    padding: .75rem .75rem;
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    height: 100%;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+    border-radius: 2px solid black;
+
+  }
+  
+  .categoryCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(216, 52, 40, 0.2);
+  }
+  
+  .imageContainer {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 1rem;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2px solid black;
+
+  }
+  
+  .circleBackground {
+    position: absolute;
+    width: 140px; /* Larger than image */
+    height: 140px;
+    background: #d83428;
+    background: linear-gradient(to bottom, #d83428, white);
+    border-radius: 50%;
+    z-index: 0;
+    top: 0%;
+    left: -10%;
+    transform: translate(-50%, -50%);
+  }
+  
+  .categoryImage {
+    object-fit: contain;
+    position: relative;
+    z-index: 2;
+    transition: transform 0.3s ease;
+    border-radius: 2px solid black;
+
+  }
+  
+  .categoryCard:hover .categoryImage {
+    transform: scale(1.1);
+  }
+  
+  .categoryName {
+    font-size: 1.1rem;
+    margin: 0;
+    color: #333;
+    position: relative;
+    z-index: 2;
+  }
+  
+  /* Glow effect */
+  .categoryCard::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 30px;
+    border: 2px solid transparent;
+    z-index: -1;
+    transition: all 0.3s ease;
+  }
+  
+  .categoryCard:hover::after {
+    border-color: #d83428;
+    box-shadow: 0 0 15px rgba(216, 52, 40, 0.4);
+  }
