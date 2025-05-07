@@ -60,6 +60,7 @@ export async function getServerSideProps() {
     sort: { _id: -1 },
     limit: 8,
   });
+  
   return {
     props: {
       newProducts: JSON.parse(JSON.stringify(newProducts)),

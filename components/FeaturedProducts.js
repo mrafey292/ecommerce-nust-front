@@ -48,54 +48,54 @@ export default function FeaturedProducts({ products, onAddToCart, onRemoveFromCa
 			</div>
 
 			<div className={styles.productsGrid}>
-        {products.map((product) => {
-          const quantity = getQuantity(product._id); // Get current quantity
+				{products.map((product) => {
+					const quantity = getQuantity(product._id); // Get current quantity
 
-          return (
-            <div key={product._id} className={styles.productCard}>
-              <div className={styles.productImageContainer}>
-                {product.images?.[0] && (
-                  <img
-                    src={product.images[0]}
-                    alt={product.title}
-                    className={styles.productImage}
-                  />
-                )}
-              </div>
-              <div className={styles.productInfo}>
-                <h3 className={styles.productTitle}>{product.title}</h3>
-                <p className={styles.productDescription}>{product.description}</p>
-                <div className={styles.productFooter}>
-                  <span className={styles.productPrice}>${product.price.toFixed(2)}</span>
-                  <div className="flex items-center space-x-2">
-                    <button
-                      onClick={() => decrementQuantity(product._id)} // Decrease quantity
-                      className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
-                      disabled={quantity === 0} // Disable if quantity is 0
-                    >
-                      -
-                    </button>
-                    <span>{quantity}</span> {/* Display current quantity */}
-                    <button
-                      onClick={() => incrementQuantity(product._id)} // Increase quantity
-                      className="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600"
-                    >
-                      +
-                    </button>
-                  </div>
-                  <button
-                    className={styles.addToCartButton}
-                    onClick={() => handleAddToCart(product._id)} // Add to cart
-                    disabled={quantity === 0} // Disable if quantity is 0
-                  >
-                    Add to Cart
-                  </button>
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
+					return (
+						<div key={product._id} className={styles.productCard}>
+							<div className={styles.productImageContainer}>
+								{product.images?.[0] && (
+									<img
+										src={product.images[0]}
+										alt={product.title}
+										className={styles.productImage}
+									/>
+								)}
+							</div>
+							<div className={styles.productInfo}>
+								<h3 className={styles.productTitle}>{product.title}</h3>
+								<p className={styles.productDescription}>{product.description}</p>
+								<div className={styles.productFooter}>
+									<span className={styles.productPrice}>${product.price.toFixed(2)}</span>
+									<div className="flex items-center space-x-2">
+										<button
+											onClick={() => decrementQuantity(product._id)} // Decrease quantity
+											className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+											disabled={quantity === 0} // Disable if quantity is 0
+										>
+											-
+										</button>
+										<span>{quantity}</span> {/* Display current quantity */}
+										<button
+											onClick={() => incrementQuantity(product._id)} // Increase quantity
+											className="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600"
+										>
+											+
+										</button>
+									</div>
+									<button
+										className={styles.addToCartButton}
+										onClick={() => handleAddToCart(product._id)} // Add to cart
+										disabled={quantity === 0} // Disable if quantity is 0
+									>
+										Add to Cart
+									</button>
+								</div>
+							</div>
+						</div>
+					);
+				})}
+			</div>
 
 			{/* Quick View Modal */}
 			{quickViewProduct && (
