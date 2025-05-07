@@ -16,7 +16,7 @@ import BestDeals from "@/components/BestDeals";
 import FeaturesBar from '@/components/FeaturesBar';
 
 export default function HomePage({ newProducts }) {
-  const { addProduct, cartProducts } = useCart();
+  const { addProduct, removeProduct, cartProducts } = useCart();
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   return (
@@ -36,8 +36,12 @@ export default function HomePage({ newProducts }) {
       <BestDeals products={newProducts} onAddToCart={addProduct} />
 
       <main className={styles.mainContent}>
-        <FeaturedProducts products={newProducts} onAddToCart={addProduct} />
-
+        <FeaturedProducts
+          products={newProducts}
+          onAddToCart={addProduct}
+          onRemoveFromCart={removeProduct} // Pass removeProduct
+          cartProducts={cartProducts} // Pass cartProducts to track quantities
+        />
         <Testimonials />
 
         <Newsletter />
