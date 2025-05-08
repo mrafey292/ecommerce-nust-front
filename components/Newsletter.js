@@ -1,28 +1,59 @@
+// components/Newsletter.js
+import { useEffect, useRef } from 'react';
 import styles from '../styles/Newsletter.module.css';
-import React, { useState } from 'react';
 
 export default function Newsletter() {
+  const backgroundRef = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      const newsletterSection = backgroundRef.current.parentElement;
+      const sectionOffset = newsletterSection.offsetTop;
+      const sectionHeight = newsletterSection.offsetHeight;
+      
+      if (scrollPosition > sectionOffset - window.innerHeight && 
+          scrollPosition < sectionOffset + sectionHeight) {
+        const scrollPercent = (scrollPosition - sectionOffset) / sectionHeight;
+        const moveAmount = scrollPercent * 30;
+        
+        // Use background-position-x for horizontal movement only
+        backgroundRef.current.style.backgroundPosition = `${moveAmount}% center`;
+      }
+    };
+  
+    // Add resize listener to handle window resizing
+    const handleResize = () => {
+      backgroundRef.current.style.backgroundSize = 'cover';
+    };
+  
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleResize);
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   return (
-    <section className={styles.newsletterSection}>
-      <div className={styles.container}>
-        <div className={styles.content}>
-          <h2 className={styles.title}>Stay Updated</h2>
-          <p className={styles.subtitle}>Subscribe to our newsletter for the latest updates and offers</p>
-          <form className={styles.form}>
-            <input 
-              type="email" 
-              placeholder="Your email address" 
-              className={styles.input}
-              required
-            />
-            <button type="submit" className={styles.submitButton}>
-              Subscribe
-            </button>
-          </form>
-          <p className={styles.privacyNote}>
-            We respect your privacy. Unsubscribe at any time.
-          </p>
+    <section className={styles.newsletter}>
+      <div ref={backgroundRef} className={styles.background} />
+      <div className={styles.content}>
+        <h2 className={styles.title}>Subscribe & Save</h2>
+        <div className={styles.discount}>
+          <span className={styles.percentage}>20%</span>
+          <span className={styles.off}>Off</span>
         </div>
+        <p className={styles.subtitle}>Your Next Order</p>
+        <form className={styles.form}>
+          <input type="email" placeholder="Email" className={styles.input} required />
+          <label className={styles.checkboxLabel}>
+            <input type="checkbox" className={styles.checkbox} />
+            Yes, subscribe me to your newsletter.
+          </label>
+          <button type="submit" className={styles.button}>Subscribe</button>
+        </form>
       </div>
     </section>
   );
