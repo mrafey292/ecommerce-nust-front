@@ -21,10 +21,15 @@ export default async function handler(req, res) {
   try {
     await mongooseConnect();
 
-    const productsIds = cartProducts;
-    const uniqueIds = [...new Set(productsIds)];
-    const productsInfos = await Product.find({ _id: uniqueIds });
-    
+    // Extract only the `id` values from the cartProducts array
+    const productIds = cartProducts.map((item) => item.id);
+
+    // Ensure unique IDs
+    const uniqueIds = [...new Set(productIds)];
+
+    // Fetch product information from the database
+    const productsInfos = await Product.find({ _id: { $in: uniqueIds } });
+
     console.log("cartProducts:", cartProducts);
     console.log("uniqueIds:", uniqueIds);
     console.log("productsInfos:", productsInfos);
@@ -35,7 +40,7 @@ export default async function handler(req, res) {
         (p) => p._id.toString() === productId
       );
       const quantity =
-        productsIds.filter((id) => id === productId)?.length || 0;
+        cartProducts.find((item) => item.id === productId)?.quantity || 0;
       if (quantity > 0 && productInfo) {
         line_items.push({
           productId,

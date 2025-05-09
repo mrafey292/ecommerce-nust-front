@@ -6,12 +6,12 @@ import { motion } from 'framer-motion';
 const categories = [
   { name: 'Vegetables', image: '/imagesPull/veggies.png' },
   { name: 'Bakery', image: '/imagesPull/breac.png' },
-  { name: 'Wine', image: '/imagesPull/wine.png' },
-  { name: 'Dairy & Eggs', image: '/imagesPull/poultry.png' },
-  { name: 'Meat & Poultry', image: '/imagesPull/meat.png' },
+  { name: 'Hygiene', image: '/imagesPull/hygiene.png' },
+  { name: 'Dairy and Eggs', image: '/imagesPull/poultry.png' },
+  { name: 'Meat and Poultry', image: '/imagesPull/meat.png' },
   { name: 'Soft Drinks', image: '/imagesPull/cola.png' },
   { name: 'Cleaning Supplies', image: '/imagesPull/detergents.png' },
-  { name: 'Cereal & Snacks', image: '/imagesPull/snacks.png' },
+  { name: 'Cereal and Snacks', image: '/imagesPull/snacks.png' },
 ];
 
 export default function CategoriesSection() {

@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useCart } from "@/components/CartContext"; // Import CartContext
+import { useRouter } from "next/router"; // Import useRouter for redirection
 
 export default function CheckoutPage() {
   const { cartProducts, clearCart } = useCart(); // Access cartProducts and clearCart from CartContext
+  const router = useRouter(); // Initialize useRouter for navigation
 
   const [formData, setFormData] = useState({
     name: "",
@@ -41,6 +43,11 @@ export default function CheckoutPage() {
       if (response.status === 200) {
         setSuccessMessage("Order placed successfully!");
         clearCart(); // Clear the cart after successful order
+
+        // Redirect to the home page after 3 seconds
+        setTimeout(() => {
+          router.push("/");
+        }, 3000);
       }
     } catch (error) {
       console.error("Error placing order:", error);
@@ -52,7 +59,12 @@ export default function CheckoutPage() {
     <div style={{ maxWidth: "600px", margin: "0 auto", padding: "20px" }}>
       <h1 style={{ textAlign: "center", marginBottom: "20px" }}>Checkout</h1>
       {successMessage && (
-        <p style={{ textAlign: "center", color: successMessage.includes("successfully") ? "green" : "red" }}>
+        <p
+          style={{
+            textAlign: "center",
+            color: successMessage.includes("successfully") ? "green" : "red",
+          }}
+        >
           {successMessage}
         </p>
       )}
@@ -68,7 +80,12 @@ export default function CheckoutPage() {
             value={formData.name}
             onChange={handleChange}
             required
-            style={{ width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px" }}
+            style={{
+              width: "100%",
+              padding: "8px",
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+            }}
           />
         </div>
 
@@ -83,12 +100,20 @@ export default function CheckoutPage() {
             value={formData.email}
             onChange={handleChange}
             required
-            style={{ width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px" }}
+            style={{
+              width: "100%",
+              padding: "8px",
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+            }}
           />
         </div>
 
         <div style={{ marginBottom: "15px" }}>
-          <label htmlFor="streetAddress" style={{ display: "block", marginBottom: "5px" }}>
+          <label
+            htmlFor="streetAddress"
+            style={{ display: "block", marginBottom: "5px" }}
+          >
             Street Address
           </label>
           <input
@@ -98,7 +123,12 @@ export default function CheckoutPage() {
             value={formData.streetAddress}
             onChange={handleChange}
             required
-            style={{ width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px" }}
+            style={{
+              width: "100%",
+              padding: "8px",
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+            }}
           />
         </div>
 
@@ -113,12 +143,20 @@ export default function CheckoutPage() {
             value={formData.city}
             onChange={handleChange}
             required
-            style={{ width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px" }}
+            style={{
+              width: "100%",
+              padding: "8px",
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+            }}
           />
         </div>
 
         <div style={{ marginBottom: "15px" }}>
-          <label htmlFor="postalCode" style={{ display: "block", marginBottom: "5px" }}>
+          <label
+            htmlFor="postalCode"
+            style={{ display: "block", marginBottom: "5px" }}
+          >
             Postal Code
           </label>
           <input
@@ -128,12 +166,20 @@ export default function CheckoutPage() {
             value={formData.postalCode}
             onChange={handleChange}
             required
-            style={{ width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px" }}
+            style={{
+              width: "100%",
+              padding: "8px",
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+            }}
           />
         </div>
 
         <div style={{ marginBottom: "15px" }}>
-          <label htmlFor="country" style={{ display: "block", marginBottom: "5px" }}>
+          <label
+            htmlFor="country"
+            style={{ display: "block", marginBottom: "5px" }}
+          >
             Country
           </label>
           <input
@@ -143,7 +189,12 @@ export default function CheckoutPage() {
             value={formData.country}
             onChange={handleChange}
             required
-            style={{ width: "100%", padding: "8px", border: "1px solid #ccc", borderRadius: "4px" }}
+            style={{
+              width: "100%",
+              padding: "8px",
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+            }}
           />
         </div>
 
