@@ -14,10 +14,13 @@ export default function ProductsPage({ products, categories }) {
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [sortOption, setSortOption] = useState("default");
+  const [onlyDeals, setOnlyDeals] = useState(false);
+
 
   useEffect(() => {
-    // Get category from URL query parameter
     const { category } = router.query;
+    let updatedProducts = [...products];
+
     if (category) {
       const formattedCategory = category.replace(/-/g, " ");
       const categoryDoc = categories.find(
@@ -25,35 +28,58 @@ export default function ProductsPage({ products, categories }) {
       );
       if (categoryDoc) {
         setSelectedCategory(categoryDoc._id);
-        setFilteredProducts(products.filter((product) => product.category === categoryDoc._id));
+        updatedProducts = updatedProducts.filter((product) => product.category === categoryDoc._id);
       }
     }
-  }, [router.query, categories, products]);
+
+    if (onlyDeals) {
+      updatedProducts = updatedProducts.filter(product => product.deals && product.deals.length > 0);
+    }
+
+    setFilteredProducts(updatedProducts);
+  }, [router.query, categories, products, onlyDeals]);
+
 
   const handleCategoryChange = (categoryId) => {
     setSelectedCategory(categoryId);
+    let updatedProducts = [...products];
+
+    if (categoryId !== "") {
+      updatedProducts = updatedProducts.filter(product => product.category === categoryId);
+    }
+
+    if (onlyDeals) {
+      updatedProducts = updatedProducts.filter(product => product.deals && product.deals.length > 0);
+    }
+
+    setFilteredProducts(updatedProducts);
+
+    // Update URL
     if (categoryId === "") {
-      setFilteredProducts(products);
-      // Remove category from URL when "All Categories" is selected
       const { category, ...restQuery } = router.query;
       router.push({ pathname: router.pathname, query: restQuery });
     } else {
-      const categoryDoc = categories.find((cat) => cat._id === categoryId);
+      const categoryDoc = categories.find(cat => cat._id === categoryId);
       if (categoryDoc) {
-        setFilteredProducts(products.filter((product) => product.category === categoryId));
-        // Update URL with selected category
         router.push({
           pathname: router.pathname,
-          query: { ...router.query, category: categoryDoc.name.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-') }
+          query: {
+            ...router.query,
+            category: categoryDoc.name.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-'),
+          },
         });
       }
     }
   };
 
+
   const handleSortChange = (option) => {
     setSortOption(option);
     let sortedProducts = [...filteredProducts];
-    
+    if (onlyDeals) {
+      sortedProducts = sortedProducts.filter(product => product.deals && product.deals.length > 0);
+    }
+
     switch (option) {
       case "price-low-high":
         sortedProducts.sort((a, b) => a.price - b.price);
@@ -81,10 +107,29 @@ export default function ProductsPage({ products, categories }) {
           sortedProducts = [...products];
         }
         break;
+
     }
-    
+
+
+
     setFilteredProducts(sortedProducts);
   };
+
+  const handleDealsChange = (checked) => {
+    setOnlyDeals(checked);
+    let updatedProducts = [...products];
+
+    if (selectedCategory) {
+      updatedProducts = updatedProducts.filter(product => product.category === selectedCategory);
+    }
+
+    if (checked) {
+      updatedProducts = updatedProducts.filter(product => product.deals && product.deals.length > 0);
+    }
+
+    setFilteredProducts(updatedProducts);
+  };
+
 
   return (
     <>
@@ -134,12 +179,22 @@ export default function ProductsPage({ products, categories }) {
               <option value="name-desc">Name: Z to A</option>
             </select>
           </div>
+
+          <label htmlFor="dealFilter" className={styles.filterLabel}>
+            <input
+              type="checkbox"
+              id="dealFilter"
+              checked={onlyDeals}
+              onChange={(e) => handleDealsChange(e.target.checked)}
+            />
+            Only show products with deals
+          </label>
         </div>
 
         <div className={styles.productsGrid}>
           {filteredProducts.map((product) => (
-            <ProductCard 
-              key={product._id} 
+            <ProductCard
+              key={product._id}
               product={product}
             />
           ))}
