@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import styles from '../styles/Categories.module.css';
 import { motion } from 'framer-motion';
 
@@ -15,6 +16,15 @@ const categories = [
 ];
 
 export default function CategoriesSection() {
+  const router = useRouter();
+
+  const handleCategoryClick = (categoryName) => {
+    router.push({
+      pathname: '/products',
+      query: { category: categoryName.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-') }
+    });
+  };
+
   return (
     <section className={styles.categoriesSection}>
       <h2 className={styles.sectionTitle}>Most Popular Categories</h2>
@@ -25,8 +35,8 @@ export default function CategoriesSection() {
             whileHover="hover"
             className={styles.categoryWrapper}
           >
-            <Link 
-              href={`/category/${category.name.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-')}`}
+            <div 
+              onClick={() => handleCategoryClick(category.name)}
               className={styles.categoryCard}
             >
               <div className={styles.imageContainer}>
@@ -51,7 +61,7 @@ export default function CategoriesSection() {
                 />
               </div>
               <h3 className={styles.categoryName}>{category.name}</h3>
-            </Link>
+            </div>
           </motion.div>
         ))}
       </div>

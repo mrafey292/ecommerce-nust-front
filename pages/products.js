@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import mongooseConnect from "@/lib/mongoose";
 import { Product } from "@/models/Product";
 import { Category } from "@/models/Category";
@@ -8,17 +9,44 @@ import Header from "@/components/Header";
 import ProductCard from "@/components/ProductCard";
 
 export default function ProductsPage({ products, categories }) {
+  const router = useRouter();
   const { addProduct } = useCart();
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [sortOption, setSortOption] = useState("default");
 
+  useEffect(() => {
+    // Get category from URL query parameter
+    const { category } = router.query;
+    if (category) {
+      const formattedCategory = category.replace(/-/g, " ");
+      const categoryDoc = categories.find(
+        (cat) => cat.name.toLowerCase() === formattedCategory.toLowerCase()
+      );
+      if (categoryDoc) {
+        setSelectedCategory(categoryDoc._id);
+        setFilteredProducts(products.filter((product) => product.category === categoryDoc._id));
+      }
+    }
+  }, [router.query, categories, products]);
+
   const handleCategoryChange = (categoryId) => {
     setSelectedCategory(categoryId);
     if (categoryId === "") {
       setFilteredProducts(products);
+      // Remove category from URL when "All Categories" is selected
+      const { category, ...restQuery } = router.query;
+      router.push({ pathname: router.pathname, query: restQuery });
     } else {
-      setFilteredProducts(products.filter((product) => product.category === categoryId));
+      const categoryDoc = categories.find((cat) => cat._id === categoryId);
+      if (categoryDoc) {
+        setFilteredProducts(products.filter((product) => product.category === categoryId));
+        // Update URL with selected category
+        router.push({
+          pathname: router.pathname,
+          query: { ...router.query, category: categoryDoc.name.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-') }
+        });
+      }
     }
   };
 
