@@ -16,6 +16,8 @@ import BestDeals from "@/components/BestDeals";
 import FeaturesBar from '@/components/FeaturesBar';
 import CategoriesSection from '../components/CategoriesSection';
 import { Deal } from "@/models/Deal";
+import ReviewForm from '../components/ReviewForm';
+import ReviewsSection from '../components/ReviewsSection';
 
 export default function HomePage({ featuredProducts, productsWithDeals }) {
   const { addProduct, removeProduct, cartProducts } = useCart();
@@ -45,7 +47,7 @@ export default function HomePage({ featuredProducts, productsWithDeals }) {
           onRemoveFromCart={removeProduct}
           cartProducts={cartProducts}
         />
-        <Testimonials />
+        <ReviewsSection />
         <Newsletter />
       </main>
 

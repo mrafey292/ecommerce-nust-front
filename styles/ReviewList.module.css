@@ -1,0 +1,99 @@
+.reviewList {
+    max-width: 1200px;
+    margin: 3rem auto;
+    padding: 0 1rem;
+  }
+  
+  .title {
+    text-align: center;
+    color: #7c0d1b;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+  }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 2rem;
+  }
+  
+  .card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #7c0d1b;
+  }
+  
+  .name {
+    margin: 0;
+    color: #333;
+  }
+  
+  .rating {
+    color: #ffc107;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+  }
+  
+  .comment {
+    color: #555;
+    line-height: 1.6;
+    font-style: italic;
+    margin-bottom: 1rem;
+  }
+  
+  .date {
+    color: #888;
+    font-size: 0.9rem;
+    text-align: right;
+  }
+  
+  @media (max-width: 768px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .title {
+      font-size: 1.5rem;
+    }
+  }
+
+  .noReviews {
+    text-align: center;
+    color: #666;
+    padding: 2rem;
+    font-style: italic;
+  }
+  
+  .loading {
+    text-align: center;
+    padding: 2rem;
+    color: #666;
+  }
+  
+  .error {
+    text-align: center;
+    padding: 2rem;
+    color: #d83428;
+    font-weight: bold;
+  }

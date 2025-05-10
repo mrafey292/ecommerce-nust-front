@@ -11,8 +11,10 @@
   "dependencies": {
     "axios": "^1.9.0",
     "framer-motion": "^12.10.0",
+    "fs-extra": "^11.3.0",
     "lucide-react": "^0.507.0",
     "mongoose": "^8.14.0",
+    "multiparty": "^4.2.3",
     "next": "^15.3.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
