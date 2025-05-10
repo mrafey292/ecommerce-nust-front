@@ -19,7 +19,7 @@ export default function Newsletter() {
       if (scrollPosition > sectionOffset - window.innerHeight && 
           scrollPosition < sectionOffset + sectionHeight) {
         const scrollPercent = (scrollPosition - sectionOffset) / sectionHeight;
-        const moveAmount = scrollPercent * 30;
+        const moveAmount = scrollPercent * 50;
         
         // Use background-position-x for horizontal movement only
         backgroundRef.current.style.backgroundPosition = `${moveAmount}% center`;

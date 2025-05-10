@@ -72,10 +72,12 @@ export default function ProductCard({ product, showBadge = false }) {
       {showBadge && <div className={styles.badge}>Best Deal</div>}
       {hasDeal && (
         <div className={styles.discountBadge}>
-          {discountPercentage}% OFF
+          {discountPercentage}% <br />Off
         </div>
       )}
+      {/* <img src={product.images?.[0]} alt={product.title} className={styles.image} /> */}
       <img src={product.images?.[0]} alt={product.title} className={styles.image} />
+
       <h3 className={styles.title}>{product.title}</h3>
       <div className={styles.priceSection}>
         {hasDeal ? (

@@ -25,7 +25,7 @@ export default function HomePage({ featuredProducts, productsWithDeals }) {
     <div className={styles.siteWrapper}>
       <TopAlertBar />
       <Head>
-        <title>Nust Eats</title>
+        <title>Khareedo</title>
         <meta
           name="description"
           content="Discover our fresh bakery products. Too hot for you >.<"
