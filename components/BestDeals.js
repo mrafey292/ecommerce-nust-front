@@ -1,7 +1,14 @@
+import { useRouter } from 'next/router';
 import ProductCard from './ProductCard';
 import styles from '../styles/BestDeals.module.css';
 
 export default function BestDeals({ products }) {
+  const router = useRouter();
+
+  const handleShopDealsClick = () => {
+    router.push('/products?onlyDeals=true');
+  };
+
   return (
     <section className={styles.dealsSection}>
       <h2>Best Deals</h2>
@@ -15,7 +22,12 @@ export default function BestDeals({ products }) {
         ))}
       </div>
       <div className={styles.ctaWrap}>
-        <button className={styles.ctaBtn}>Shop Best Deals</button>
+        <button 
+          className={styles.ctaBtn} 
+          onClick={handleShopDealsClick}
+        >
+          Shop Best Deals
+        </button>
       </div>
     </section>
   );

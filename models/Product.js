@@ -13,5 +13,4 @@ const ProductSchema = new Schema({
   strictPopulate: false
 });
 
-// ✅ Export the model
 export const Product = models.Product || model("Product", ProductSchema);

@@ -18,9 +18,11 @@ export default function ProductsPage({ products, categories }) {
 
 
   useEffect(() => {
-    const { category } = router.query;
+    const { category, onlyDeals: queryOnlyDeals } = router.query;
+
     let updatedProducts = [...products];
 
+    // Handle category filtering
     if (category) {
       const formattedCategory = category.replace(/-/g, " ");
       const categoryDoc = categories.find(
@@ -32,12 +34,17 @@ export default function ProductsPage({ products, categories }) {
       }
     }
 
-    if (onlyDeals) {
+    // Handle deal filtering based on query param or state
+    const shouldFilterDeals = queryOnlyDeals === 'true' || onlyDeals;
+    setOnlyDeals(shouldFilterDeals);
+
+    if (shouldFilterDeals) {
       updatedProducts = updatedProducts.filter(product => product.deals && product.deals.length > 0);
     }
 
     setFilteredProducts(updatedProducts);
-  }, [router.query, categories, products, onlyDeals]);
+  }, [router.query, categories, products]);
+
 
 
   const handleCategoryChange = (categoryId) => {
@@ -185,8 +192,18 @@ export default function ProductsPage({ products, categories }) {
               type="checkbox"
               id="dealFilter"
               checked={onlyDeals}
-              onChange={(e) => handleDealsChange(e.target.checked)}
+              onChange={(e) => {
+                handleDealsChange(e.target.checked);
+                const query = { ...router.query };
+                if (e.target.checked) {
+                  query.onlyDeals = 'true';
+                } else {
+                  delete query.onlyDeals;
+                }
+                router.push({ pathname: router.pathname, query });
+              }}
             />
+
             Only show products with deals
           </label>
         </div>
@@ -207,8 +224,36 @@ export default function ProductsPage({ products, categories }) {
 export async function getServerSideProps() {
   await mongooseConnect();
 
-  // Fetch products and categories from the database
-  const products = await Product.find({}, null, { sort: { createdAt: -1 } }); // Default sort by newest first
+  const now = new Date();
+
+  // Aggregation to fetch products and only include active deals
+  const products = await Product.aggregate([
+    {
+      $lookup: {
+        from: "deals",
+        let: { productId: "$_id" },
+        pipeline: [
+          {
+            $match: {
+              $expr: {
+                $and: [
+                  { $eq: ["$productId", "$$productId"] },
+                  { $eq: ["$isActive", true] },
+                  { $lte: ["$startDate", now] },
+                  { $gte: ["$endDate", now] }
+                ]
+              }
+            }
+          }
+        ],
+        as: "deals"
+      }
+    },
+    {
+      $sort: { createdAt: -1 }
+    }
+  ]);
+
   const categories = await Category.find({});
 
   return {

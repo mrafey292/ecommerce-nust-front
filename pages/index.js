@@ -15,8 +15,9 @@ import TopAlertBar from "../components/TopAlertBar";
 import BestDeals from "@/components/BestDeals";
 import FeaturesBar from '@/components/FeaturesBar';
 import CategoriesSection from '../components/CategoriesSection';
+import { Deal } from "@/models/Deal";
 
-export default function HomePage({ newProducts }) {
+export default function HomePage({ featuredProducts, productsWithDeals }) {
   const { addProduct, removeProduct, cartProducts } = useCart();
   const [isCartOpen, setIsCartOpen] = useState(false);
 
@@ -34,38 +35,56 @@ export default function HomePage({ newProducts }) {
       <Header onCartClick={() => setIsCartOpen(true)} />
       <Hero />
       <FeaturesBar />
-      <BestDeals products={newProducts} onAddToCart={addProduct} />
+      <BestDeals products={productsWithDeals} onAddToCart={addProduct} />
       <CategoriesSection />
 
       <main className={styles.mainContent}>
         <FeaturedProducts
-          products={newProducts}
+          products={featuredProducts}
           onAddToCart={addProduct}
-          onRemoveFromCart={removeProduct} // Pass removeProduct
-          cartProducts={cartProducts} // Pass cartProducts to track quantities
+          onRemoveFromCart={removeProduct}
+          cartProducts={cartProducts}
         />
         <Testimonials />
-
         <Newsletter />
       </main>
 
       <Footer />
-
       <CartDrawer open={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </div>
   );
 }
 
+
 export async function getServerSideProps() {
   await mongooseConnect();
-  const newProducts = await Product.find({}, null, {
+
+  // 1. Get latest 5 products for FeaturedProducts
+  const featuredProducts = await Product.find({}, null, {
     sort: { _id: -1 },
-    limit: 8,
+    limit: 5,
   });
-  
+
+  // 2. Get active deals (within date range and isActive)
+  const now = new Date();
+  const activeDeals = await Deal.find({
+    isActive: true,
+    startDate: { $lte: now },
+    endDate: { $gte: now },
+  }).sort({ createdAt: -1 }).limit(5);
+
+  // 3. Get the products linked to those deals
+  const productIdsWithDeals = activeDeals.map((deal) => deal.productId);
+  const productsWithDeals = await Product.find({
+    _id: { $in: productIdsWithDeals },
+  });
+
   return {
     props: {
-      newProducts: JSON.parse(JSON.stringify(newProducts)),
+      featuredProducts: JSON.parse(JSON.stringify(featuredProducts)),
+      productsWithDeals: JSON.parse(JSON.stringify(productsWithDeals)),
     },
   };
 }
+
+

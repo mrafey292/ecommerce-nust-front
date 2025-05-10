@@ -7,7 +7,7 @@ export default function FeaturedProducts({ products }) {
     <section className={styles.featuredProducts}>
       <div className={styles.sectionHeader}>
         <h2 className={styles.sectionTitle}>Featured Products</h2>
-        <Link href="/shop" className={styles.viewAllLink}>
+        <Link href="/products" className={styles.viewAllLink}>
           View All Products →
         </Link>
       </div>

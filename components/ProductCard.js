@@ -14,7 +14,7 @@ export default function ProductCard({ product, showBadge = false }) {
       if (product.deals && product.deals.length > 0) {
         try {
           // Convert array of deal IDs to comma-separated string
-          const dealIds = product.deals.join(',');
+          const dealIds = product.deals.map(d => d._id || d).join(',');
           const response = await axios.get(`/api/deals?dealIds=${dealIds}`);
           const deals = response.data;
           const now = new Date();
