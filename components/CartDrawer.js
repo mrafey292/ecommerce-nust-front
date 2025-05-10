@@ -23,7 +23,8 @@ export default function CartDrawer({ open, onClose }) {
   const subtotal = products.reduce((sum, product) => {
     const cartItem = cartProducts.find(item => item.id === product._id);
     const quantity = cartItem ? cartItem.quantity : 0;
-    return sum + product.price * quantity;
+    const price = product.deal ? product.deal.finalPrice : product.price;
+    return sum + price * quantity;
   }, 0).toFixed(2);
 
   const totalItems = cartProducts.reduce((sum, item) => sum + item.quantity, 0);
@@ -79,7 +80,8 @@ export default function CartDrawer({ open, onClose }) {
                       {products.map((product) => {
                         const cartItem = cartProducts.find(item => item.id === product._id);
                         const quantity = cartItem ? cartItem.quantity : 0;
-                        const totalPrice = (product.price * quantity).toFixed(2);
+                        const price = product.deal ? product.deal.finalPrice : product.price;
+                        const totalPrice = (price * quantity).toFixed(2);
                         
                         return (
                           <motion.li
@@ -102,7 +104,21 @@ export default function CartDrawer({ open, onClose }) {
                             <div className={styles.productDetails}>
                               <h3 className={styles.productTitle}>{product.title}</h3>
                               <div className={styles.priceRow}>
-                                <span className={styles.unitPrice}>${product.price.toFixed(2)}</span>
+                                {product.deal ? (
+                                  <>
+                                    <div className={styles.priceInfo}>
+                                      <span className={styles.originalPrice}>${product.price.toFixed(2)}</span>
+                                      <span className={styles.unitPrice}>${price.toFixed(2)}</span>
+                                      <span className={styles.discountBadge}>
+                                        {product.deal.discountType === 'percentage' 
+                                          ? `${product.deal.discountAmount}% OFF`
+                                          : `$${product.deal.discountAmount} OFF`}
+                                      </span>
+                                    </div>
+                                  </>
+                                ) : (
+                                  <span className={styles.unitPrice}>${price.toFixed(2)}</span>
+                                )}
                                 <div className={styles.quantityControls}>
                                   <button 
                                     onClick={(e) => {

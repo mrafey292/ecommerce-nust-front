@@ -6,9 +6,11 @@ const ProductSchema = new Schema({
   price: { type: Number, required: true },
   images: [{ type: String }],
   category: { type: mongoose.Types.ObjectId, ref: "Category" },
-  properties: { type: Object }
+  properties: { type: Object },
+  deals: [{ type: mongoose.Types.ObjectId, ref: "Deal" }]
 }, {
   timestamps: true,
+  strictPopulate: false
 });
 
 // ✅ Export the model

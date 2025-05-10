@@ -7,8 +7,12 @@ export default function Newsletter() {
 
   useEffect(() => {
     const handleScroll = () => {
+      if (!backgroundRef.current) return;
+      
       const scrollPosition = window.scrollY;
       const newsletterSection = backgroundRef.current.parentElement;
+      if (!newsletterSection) return;
+      
       const sectionOffset = newsletterSection.offsetTop;
       const sectionHeight = newsletterSection.offsetHeight;
       
@@ -24,11 +28,15 @@ export default function Newsletter() {
   
     // Add resize listener to handle window resizing
     const handleResize = () => {
+      if (!backgroundRef.current) return;
       backgroundRef.current.style.backgroundSize = 'cover';
     };
   
     window.addEventListener('scroll', handleScroll);
     window.addEventListener('resize', handleResize);
+    
+    // Initial setup
+    handleResize();
     
     return () => {
       window.removeEventListener('scroll', handleScroll);

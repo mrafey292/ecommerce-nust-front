@@ -1,6 +1,7 @@
 import mongooseConnect from "@/lib/mongoose";
 import { Product } from "@/models/Product";
 import { Order } from "@/models/Order";
+import { Deal } from "@/models/Deal";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
@@ -30,9 +31,14 @@ export default async function handler(req, res) {
     // Fetch product information from the database
     const productsInfos = await Product.find({ _id: { $in: uniqueIds } });
 
-    console.log("cartProducts:", cartProducts);
-    console.log("uniqueIds:", uniqueIds);
-    console.log("productsInfos:", productsInfos);
+    // Get active deals for these products
+    const now = new Date();
+    const deals = await Deal.find({
+      productId: { $in: uniqueIds },
+      isActive: true,
+      startDate: { $lte: now },
+      endDate: { $gte: now }
+    });
 
     let line_items = [];
     for (const productId of uniqueIds) {
@@ -41,12 +47,33 @@ export default async function handler(req, res) {
       );
       const quantity =
         cartProducts.find((item) => item.id === productId)?.quantity || 0;
+      
       if (quantity > 0 && productInfo) {
+        // Find if there's an active deal for this product
+        const productDeal = deals.find(deal => deal.productId.toString() === productId);
+        let finalPrice = productInfo.price;
+        let discountInfo = null;
+        
+        if (productDeal) {
+          const discountAmount = productDeal.discountType === 'percentage' 
+            ? (productInfo.price * productDeal.discountAmount / 100)
+            : productDeal.discountAmount;
+          finalPrice = productInfo.price - discountAmount;
+          discountInfo = {
+            type: productDeal.discountType,
+            amount: productDeal.discountAmount,
+            originalPrice: productInfo.price
+          };
+        }
+
         line_items.push({
           productId,
           title: productInfo.title,
-          price: productInfo.price,
+          price: finalPrice,
           quantity,
+          originalPrice: productInfo.price,
+          hasDeal: !!productDeal,
+          discountInfo
         });
       }
     }

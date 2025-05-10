@@ -5,6 +5,7 @@ import { Category } from "@/models/Category";
 import styles from "@/styles/Products.module.css";
 import { useCart } from "@/components/CartContext";
 import Header from "@/components/Header";
+import ProductCard from "@/components/ProductCard";
 
 export default function ProductsPage({ products, categories }) {
   const { addProduct } = useCart();
@@ -109,21 +110,10 @@ export default function ProductsPage({ products, categories }) {
 
         <div className={styles.productsGrid}>
           {filteredProducts.map((product) => (
-            <div key={product._id} className={styles.productCard}>
-              <img
-                src={product.images?.[0] || "/placeholder.png"}
-                alt={product.title}
-                className={styles.productImage}
-              />
-              <h3 className={styles.productTitle}>{product.title}</h3>
-              <p className={styles.productPrice}>${product.price.toFixed(2)}</p>
-              <button
-                onClick={() => addProduct(product._id)}
-                className={styles.addToCartButton}
-              >
-                Add to Cart
-              </button>
-            </div>
+            <ProductCard 
+              key={product._id} 
+              product={product}
+            />
           ))}
         </div>
       </div>

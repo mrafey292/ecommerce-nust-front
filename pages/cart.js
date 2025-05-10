@@ -33,7 +33,8 @@ export default function CartPage() {
   const subtotal = products.reduce((sum, product) => {
     const cartItem = cartProducts.find((item) => item.id === product._id);
     const quantity = cartItem ? cartItem.quantity : 0;
-    return sum + product.price * quantity;
+    const price = product.deal ? product.deal.finalPrice : product.price;
+    return sum + price * quantity;
   }, 0);
 
   return (
@@ -50,7 +51,8 @@ export default function CartPage() {
                 (item) => item.id === product._id
               );
               const quantity = cartItem ? cartItem.quantity : 0;
-              const totalPrice = product.price * quantity;
+              const price = product.deal ? product.deal.finalPrice : product.price;
+              const totalPrice = price * quantity;
 
               return (
                 <li key={product._id} className={styles.productItem}>
@@ -65,9 +67,21 @@ export default function CartPage() {
                   </div>
                   <div className={styles.productInfo}>
                     <h3 className={styles.productTitle}>{product.title}</h3>
-                    <p className={styles.productPrice}>
-                      ${product.price.toFixed(2)}
-                    </p>
+                    <div className={styles.priceInfo}>
+                      {product.deal ? (
+                        <>
+                          <span className={styles.originalPrice}>${product.price.toFixed(2)}</span>
+                          <span className={styles.productPrice}>${price.toFixed(2)}</span>
+                          <span className={styles.discountBadge}>
+                            {product.deal.discountType === 'percentage' 
+                              ? `${product.deal.discountAmount}% OFF`
+                              : `$${product.deal.discountAmount} OFF`}
+                          </span>
+                        </>
+                      ) : (
+                        <span className={styles.productPrice}>${price.toFixed(2)}</span>
+                      )}
+                    </div>
                     <div className={styles.quantityRow}>
                       <div className={styles.quantityControls}>
                         <button
@@ -144,3 +158,4 @@ export default function CartPage() {
     </div>
   );
 }
+
