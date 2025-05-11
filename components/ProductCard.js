@@ -2,13 +2,15 @@ import { useState, useEffect } from 'react';
 import styles from '../styles/ProductCard.module.css';
 import { useCart } from './CartContext';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 
 export default function ProductCard({ product, showBadge = false }) {
   const { addProduct } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [isAdded, setIsAdded] = useState(false);
   const [activeDeal, setActiveDeal] = useState(null);
-
+  
+  const router = useRouter();
   useEffect(() => {
     const fetchActiveDeal = async () => {
       if (product.deals && product.deals.length > 0) {
@@ -53,6 +55,10 @@ export default function ProductCard({ product, showBadge = false }) {
     setTimeout(() => setIsAdded(false), 2000);
   };
 
+  const handleCardClick = () => {
+    router.push(`/products/${product._id}`);
+  };
+
   // Calculate prices and discount
   const hasDeal = activeDeal !== null;
   const discountAmount = hasDeal 
@@ -68,7 +74,7 @@ export default function ProductCard({ product, showBadge = false }) {
     : null;
 
   return (
-    <div className={styles.card}>
+    <div className={styles.card} onClick={handleCardClick}>
       {showBadge && <div className={styles.badge}>Best Deal</div>}
       {hasDeal && (
         <div className={styles.discountBadge}>
