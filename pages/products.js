@@ -158,6 +158,25 @@ export default function ProductsPage({ products, categories }) {
     setFilteredProducts(sortedProducts);
   };
 
+  // const handleDealsChange = (checked) => {
+  //   setOnlyDeals(checked);
+  //   let updatedProducts = [...products];
+
+  //   if (selectedCategory) {
+  //     updatedProducts = updatedProducts.filter(
+  //       (product) => product.category === selectedCategory
+  //     );
+  //   }
+
+  //   if (checked) {
+  //     updatedProducts = updatedProducts.filter(
+  //       (product) => product.deals && product.deals.length > 0
+  //     );
+  //   }
+
+  //   setFilteredProducts(updatedProducts);
+  // };
+
   const handleDealsChange = (checked) => {
     setOnlyDeals(checked);
     let updatedProducts = [...products];
@@ -416,18 +435,20 @@ export default function ProductsPage({ products, categories }) {
                 <div className={styles.priceAndControls}>
                   <p className={styles.productPrice}>
                     {/* Safely handle deal price display */}
-                    {product.deals?.[0]?.finalPrice ? (
+                    {product.deals?.length > 0 ? (
                       <>
                         <span className={styles.dealPrice}>
-                          ${product.deals[0].finalPrice.toFixed(2)}
+                          $
+                          {product.deals[0]?.finalPrice?.toFixed(2) ||
+                            product.price?.toFixed(2) ||
+                            "0.00"}
                         </span>
                         <span className={styles.originalPrice}>
                           ${product.price?.toFixed(2) || "0.00"}
                         </span>
                       </>
                     ) : (
-                      // Regular price if no deal
-                      `$${product.price?.toFixed(2) || "0.00"}`
+                      <span>${product.price?.toFixed(2) || "0.00"}</span>
                     )}
                   </p>
 

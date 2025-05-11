@@ -1,0 +1,684 @@
+/* Base Styles */
+.checkoutContainer {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+
+    /* display: flex; */
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: #333;
+    gap: 2rem;
+    align-items: start;
+
+  }
+
+
+  .leftColumn {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  
+  /* Progress Steps */
+  .progressSteps {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0rem;
+    grid-column: 1 / -1;
+    position: relative;
+  }
+  
+  .progressSteps::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #e0e0e0;
+    z-index: 1;
+  }
+  
+  .step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .stepNumber {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #e0e0e0;
+    color: #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    transition: all 0.3s ease;
+  }
+  
+  .stepLabel {
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+  
+  .step.active .stepNumber {
+    background: #d83428;
+    color: white;
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .step.active .stepLabel {
+    color: #000;
+    font-weight: 600;
+  }
+  
+  /* Checkout Sections */
+  .checkoutSection {
+    flex: 1;
+    background: white;
+    border-radius: 30px;
+    padding: 1rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+    margin-bottom: 2rem;
+    animation-duration: 0.5s;
+    animation-fill-mode: both;
+  }
+  
+  .animate-fadeIn {
+    animation-name: fadeIn;
+  }
+  
+  .animate-slideIn {
+    animation-name: slideIn;
+  }
+
+  .animateFadeIn {
+    animation-name: fadeIn;
+  }
+  
+  .animateSlideIn {
+    animation-name: slideIn;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes slideIn {
+    from { 
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to { 
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .checkoutSection h2 {
+    color: #1a0402;
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+  }
+  
+  /* Map Container */
+  .mapContainer {
+    position: relative;
+    height: 200px;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .mapOverlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    text-align: center;
+  }
+  
+  /* Form Styles */
+  .formGroup {
+    margin-bottom: 1.2rem;
+  }
+  
+  .formGroup label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #555;
+  }
+  
+  .formGroup input {
+    width: 90%;
+    padding: 0.8rem 1rem;
+    border: 1px solid #d1d1d1;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+  }
+  
+  .formGroup input:focus {
+    border-color: #d83428;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+    outline: none;
+  }
+  
+  .formRow {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .formRow .formGroup {
+    flex: 1;
+  }
+  
+  /* Delivery Options */
+  .deliveryOptions {
+    margin: 1rem 0;
+  }
+  
+  .deliveryOptions h3 {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .optionGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+  
+  .optionCard {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .optionCard:hover {
+    border-color: #d83428;
+  }
+  
+  .optionCard.active {
+    border-color: #000;
+    background: rgba(158, 158, 158, 0.219);
+  }
+  
+  .optionCard input[type="radio"] {
+    margin-right: 1rem;
+    accent-color: #000;
+  }
+  
+  .optionContent {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .optionTitle {
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+    /* text-align: left; */
+  }
+  
+  .optionDetails {
+    font-size: 0.85rem;
+    color: #666;
+  }
+  
+  .optionPrice {
+    color: #d83428;
+    text-align: left;
+    font-weight: 600;
+    margin-left: auto;
+    padding-left: 0rem;
+  }
+  
+  /* Payment Options */
+  .paymentOptions {
+    margin: 1.5rem 0;
+  }
+  
+  .cardIcons {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+  
+  .cardIcons img {
+      height: 20px;
+    }
+    
+    .paypalLogo, .applePayLogo {
+      margin-left: -40rem;
+      scale: 1.3;
+    height: 24px;
+    margin-top: 0.5rem;
+  }
+  
+  .creditCardForm {
+    margin: 1.5rem 0;
+    padding: 1.5rem;
+    background: #f9f9f9;
+    border-radius: 8px;
+    animation: fadeIn 0.5s ease;
+  }
+  
+  .cardInput {
+    background: white;
+  }
+  
+  /* Order Summary */
+  .orderSummary {
+    margin-top: 1.5rem;
+  }
+  
+  .summarySection {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  
+  .summarySection h3 {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+  
+  .deliveryEstimate {
+    font-size: 0.9rem;
+    color: #0066cc;
+    margin-top: 0.5rem;
+  }
+  
+  .orderItems {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .orderItem {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+  
+  .itemImage {
+    position: relative;
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #f5f5f5;
+  }
+  
+  .itemImage img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .itemQuantity {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #000;
+    color: white;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 600;
+  }
+  
+  .itemDetails h4 {
+    font-size: 0.95rem;
+    margin-bottom: 0.3rem;
+    font-weight: 500;
+  }
+  
+  .itemPrice {
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+  
+  .originalPrice {
+    font-size: 0.8rem;
+    color: #999;
+    text-decoration: line-through;
+    margin-left: 0.5rem;
+  }
+  
+  .orderTotal {
+    margin-top: 1.5rem;
+  }
+  
+  .totalRow {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.8rem;
+    font-size: 0.95rem;
+  }
+  
+  .grandTotal {
+    color: #d83428;
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #f0f0f0;
+  }
+  
+  .termsCheckbox {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 1rem 0; /* Small vertical spacing */
+    gap: 0.5rem; /* Space between checkbox and label */
+    margin-left: -37rem;
+  }
+  
+  .termsCheckbox input[type="checkbox"] {
+    margin: 0; /* Remove any default margin */
+  }
+  
+  .termsCheckbox label {
+      font-size: 0.9rem;
+      margin: 0;
+      margin-left: -37rem;
+  }
+  
+  
+  /* Buttons */
+  .buttonGroup {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  
+  .continueButton, .backButton, .submitButton {
+    border-radius: 30px;
+
+    flex: 1;
+    padding: 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+  }
+  
+  .continueButton, .submitButton {
+    background: #000;
+    color: white;
+    border: none;
+    border-radius: 30px;
+  }
+  
+  .continueButton:hover, .submitButton:hover {
+    border-radius: 30px;
+
+    background: #333;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .backButton {
+    border-radius: 30px;
+
+    background: white;
+    color: #161616;
+    border: 1px solid #878787;
+  }
+  
+  .backButton:hover {
+    border-color: #999;
+    transform: translateY(-2px);
+  }
+  
+  .spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s ease-in-out infinite;
+  }
+  
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  
+  /* Success Section */
+  .successSection {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 3rem 2rem;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+  
+  .successAnimation {
+    margin-bottom: 2rem;
+  }
+  
+  .checkmark {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: block;
+    stroke-width: 3;
+    stroke: #fff;
+    stroke-miterlimit: 10;
+    box-shadow: 0 0 0 rgba(0, 200, 83, 0.4);
+    animation: checkmarkFill 0.4s ease-in-out 0.4s forwards, checkmarkScale 0.3s ease-in-out 0.9s both;
+  }
+  
+  .checkmarkCircle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    stroke-width: 3;
+    stroke-miterlimit: 10;
+    stroke: #000;
+    fill: none;
+    animation: checkmarkStroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+  }
+  
+  .checkmarkCheck {
+    transform-origin: 50% 50%;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: checkmarkStroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+  }
+  
+  @keyframes checkmarkStroke {
+    100% { stroke-dashoffset: 0; }
+  }
+  
+  @keyframes checkmarkScale {
+    0%, 100% { transform: none; }
+    50% { transform: scale3d(1.1, 1.1, 1); }
+  }
+  
+  @keyframes checkmarkFill {
+    100% { box-shadow: inset 0 0 0 100px #000; }
+  }
+  
+  .successSection h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+  
+  .successMessage {
+    font-size: 1.1rem;
+    color: #555;
+    margin-bottom: 1rem;
+    max-width: 500px;
+    line-height: 1.5;
+  }
+  
+  .confirmationEmail {
+    font-size: 0.95rem;
+    color: #0066cc;
+    margin-bottom: 2rem;
+  }
+  
+  .continueShoppingButton {
+    padding: 1rem 2rem;
+    background: #000;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .continueShoppingButton:hover {
+    background: #333;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Order Summary Sidebar */
+  .orderSummarySidebar {
+    width: 320px;
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    align-self: flex-start;
+    position: sticky;
+    top: 2rem;
+  }
+  
+  .orderSummarySidebar h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+  }
+  
+  .orderItemsPreview {
+    margin-bottom: 1.5rem;
+  }
+  
+  .previewItem {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .previewItem img {
+    width: 50px;
+    height: 50px;
+    border-radius: 6px;
+    object-fit: cover;
+  }
+  
+  .previewDetails {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    font-size: 0.9rem;
+  }
+  
+  .moreItems {
+    font-size: 0.85rem;
+    color: #666;
+    text-align: center;
+    padding: 0.5rem;
+    background: #f9f9f9;
+    border-radius: 6px;
+  }
+  
+  .orderTotals {
+    margin: 1.5rem 0;
+    padding: 1.5rem 0;
+    border-top: 1px solid #f0f0f0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  
+  .secureCheckout {
+    border-radius: 1px solid red;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 0rem;
+  }
+  
+  .secureCheckout svg {
+    fill: #0066cc;
+  }
+  
+  /* Responsive Styles */
+  /* Tablet: Stack columns vertically */
+@media (max-width: 1024px) {
+    .checkoutContainer {
+      display: flex;
+      flex-direction: column;
+    }
+  
+    .orderSummarySidebar {
+      width: 100%;
+      position: static;
+      margin-top: 2rem;
+    }
+  }
+  
+  /* Mobile: Tweak internal elements */
+  @media (max-width: 768px) {
+    .progressSteps {
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+  
+    .step {
+      flex: 1;
+      min-width: 80px;
+    }
+  
+    .formRow {
+      flex-direction: column;
+      gap: 0;
+    }
+  }

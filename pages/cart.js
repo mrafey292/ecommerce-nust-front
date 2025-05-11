@@ -147,7 +147,7 @@ export default function CartPage() {
 
               <div className={styles.paymentIcons}>
 
-                <img src="https://shopify.dev/assets/templated-apis-screenshots/checkout-ui-extensions/2024-10/paymenticon-default.png"></img>
+                <img src="https://shopify.dev/assets/templated-apis-screenshots/checkout-ui-extensions/2024-10/paymenticon-thumbnail.png"></img>
               </div>
             <div className={styles.secureCheckout}>
               <span>Secure Checkout</span>

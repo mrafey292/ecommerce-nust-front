@@ -203,11 +203,11 @@
 }
 
 .originalPrice {
-    margin-left: 8px;
-    text-decoration: line-through;
-    color: #718096; /* gray-500 */
-    font-size: 0.875rem;
-  }
+  margin-left: 8px;
+  text-decoration: line-through;
+  color: #718096; /* gray-500 */
+  font-size: 0.875rem;
+}
 
 .priceAndControls {
   margin-top: auto;
@@ -296,9 +296,9 @@
 }
 
 .dealPrice {
-    color: #d83428; /* red for deal price */
-    font-weight: 700;
-  }
+  color: #d83428; /* red for deal price */
+  font-weight: 700;
+}
 
 .dealBadge {
   position: absolute;

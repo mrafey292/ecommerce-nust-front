@@ -1,11 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useCart } from "@/components/CartContext"; // Import CartContext
-import { useRouter } from "next/router"; // Import useRouter for redirection
+import { useCart } from "@/components/CartContext";
+import { useRouter } from "next/router";
+import dynamic from "next/dynamic";
+import styles from "@/styles/Checkout.module.css";
+
+
+// Dynamically import the Map component to avoid SSR issues
+const MapWithNoSSR = dynamic(() => import("@/components/Map"), {
+  ssr: false,
+});
 
 export default function CheckoutPage() {
-  const { cartProducts, clearCart } = useCart(); // Access cartProducts and clearCart from CartContext
-  const router = useRouter(); // Initialize useRouter for navigation
+  const { cartProducts, clearCart } = useCart();
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const [activeStep, setActiveStep] = useState(1);
+  const [paymentMethod, setPaymentMethod] = useState("credit");
+  const [deliveryMethod, setDeliveryMethod] = useState("standard");
+  const [mapCenter, setMapCenter] = useState({ lat: 40.7128, lng: -74.006 });
 
   const [formData, setFormData] = useState({
     name: "",
@@ -17,6 +30,18 @@ export default function CheckoutPage() {
   });
 
   const [successMessage, setSuccessMessage] = useState("");
+  const [cartTotal, setCartTotal] = useState(0);
+
+  useEffect(() => {
+    //total of cart kr rhe h
+    const total = cartProducts.reduce((sum, product) => {
+      const rawPrice =
+        product.deals?.length > 0 ? product.deals[0].finalPrice : product.price;
+      const price = typeof rawPrice === "number" ? rawPrice : 0;
+      return sum + price * (product.quantity || 1);
+    }, 0);
+    setCartTotal(total);
+  }, [cartProducts]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,192 +53,552 @@ export default function CheckoutPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
 
     try {
       const orderData = {
         ...formData,
-        cartProducts, // Include cart products from CartContext
+        cartProducts,
+        paymentMethod,
+        deliveryMethod,
+        total: cartTotal,
       };
 
       console.log("Order Data Sent to API:", orderData); // Debugging log
 
       // Send the order data to the backend
+
       const response = await axios.post("/api/checkout", orderData);
 
       if (response.status === 200) {
         setSuccessMessage("Order placed successfully!");
-        clearCart(); // Clear the cart after successful order
+        clearCart();
+        setActiveStep(4); // Show success step
 
-        // Redirect to the home page after 3 seconds
+        // Redirect to the home page after 5 seconds
+
         setTimeout(() => {
           router.push("/");
-        }, 3000);
+        }, 5000);
       }
     } catch (error) {
       console.error("Error placing order:", error);
       setSuccessMessage("Failed to place the order. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
+  const calculateDeliveryDate = () => {
+    const days = deliveryMethod === "express" ? 2 : 5;
+    const date = new Date();
+    date.setDate(date.getDate() + days);
+    return date.toLocaleDateString("en-US", {
+      weekday: "long",
+      month: "long",
+      day: "numeric",
+    });
+  };
+
+  const handleAddressChange = (e) => {
+    handleChange(e);
+    // Simulate geocoding by slightly adjusting the map center
+    setMapCenter((prev) => ({
+      lat: prev.lat + (Math.random() * 0.01 - 0.005),
+      lng: prev.lng + (Math.random() * 0.01 - 0.005),
+    }));
+  };
+
   return (
-    <div style={{ maxWidth: "600px", margin: "0 auto", padding: "20px" }}>
-      <h1 style={{ textAlign: "center", marginBottom: "20px" }}>Checkout</h1>
-      {successMessage && (
-        <p
-          style={{
-            textAlign: "center",
-            color: successMessage.includes("successfully") ? "green" : "red",
-          }}
-        >
-          {successMessage}
-        </p>
+    <div className={styles.checkoutContainer}>
+    {/* <div class="leftColumn"> */}
+
+      {/* Progress Steps */}
+      <div className={styles.progressSteps}>
+        {[1, 2, 3, 4].map((step) => (
+          <div
+            key={step}
+            className={`${styles.step} ${activeStep >= step ? styles.active : ""}`}
+            onClick={() => step < 4 && setActiveStep(step)}
+          >
+            <div className={styles.stepNumber}>{step}</div>
+            <div className={styles.stepLabel}>
+              {step === 1 && "Shipping"}
+              {step === 2 && "Payment"}
+              {step === 3 && "Review"}
+              {step === 4 && "Complete"}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {activeStep === 1 && (
+        <div className={`${styles.checkoutSection} ${styles.animateFadeIn}`}>
+          <h2>Shipping Information</h2>
+
+          <div className={styles.mapContainer}>
+            <MapWithNoSSR center={mapCenter} />
+            <div className={styles.mapOverlay}>Your delivery area</div>
+          </div>
+
+          <form>
+            <div className={styles.formGroup}>
+              <label>Full Name</label>
+              <input
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleAddressChange}
+                required
+              />
+            </div>
+
+            <div className={styles.formGroup}>
+              <label>Email</label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className={styles.formGroup}>
+              <label>Street Address</label>
+              <input
+                type="text"
+                name="streetAddress"
+                value={formData.streetAddress}
+                onChange={handleAddressChange}
+                required
+              />
+            </div>
+
+            <div className={styles.formRow}>
+              <div className={styles.formGroup}>
+                <label>City</label>
+                <input
+                  type="text"
+                  name="city"
+                  value={formData.city}
+                  onChange={handleAddressChange}
+                  required
+                />
+              </div>
+
+              <div className={styles.formGroup}>
+                <label>Postal Code</label>
+                <input
+                  type="text"
+                  name="postalCode"
+                  value={formData.postalCode}
+                  onChange={handleAddressChange}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className={styles.formGroup}>
+              <label>Country</label>
+              <input
+                type="text"
+                name="country"
+                value={formData.country}
+                onChange={handleAddressChange}
+                required
+              />
+            </div>
+
+            <div className={styles.deliveryOptions}>
+              <h3>Delivery Method</h3>
+              <div className={styles.optionGroup}>
+                <label
+                  className={`${styles.optionCard} ${
+                    deliveryMethod === "standard" ? styles.active : ""
+                  }`}
+                  onClick={() => setDeliveryMethod("standard")}
+                >
+                  <input
+                    type="radio"
+                    name="delivery"
+                    checked={deliveryMethod === "standard"}
+                    readOnly
+                  />
+                  <div className={styles.optionContent}>
+                    <span className={styles.optionTitle}>Standard Delivery</span>
+                    <span className={styles.optionDetails}>3-5 business days</span>
+                    <span className={styles.optionPrice}>FREE</span>
+                  </div>
+                </label>
+
+                <label
+                  className={`${styles.optionCard} ${
+                    deliveryMethod === "express" ? styles.active : ""
+                  }`}
+                  onClick={() => setDeliveryMethod("express")}
+                >
+                  <input
+                    type="radio"
+                    name="delivery"
+                    checked={deliveryMethod === "express"}
+                    readOnly
+                  />
+                  <div className={styles.optionContent}>
+                    <span className={styles.optionTitle}>Express Delivery</span>
+                    <span className={styles.optionDetails}>1-2 business days</span>
+                    <span className={styles.optionPrice}>$9.99</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              className={styles.continueButton}
+              onClick={() => setActiveStep(2)}
+            >
+              Continue to Payment
+            </button>
+          </form>
+        </div>
       )}
-      <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: "15px" }}>
-          <label htmlFor="name" style={{ display: "block", marginBottom: "5px" }}>
-            Name
-          </label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            required
-            style={{
-              width: "100%",
-              padding: "8px",
-              border: "1px solid #ccc",
-              borderRadius: "4px",
-            }}
-          />
-        </div>
 
-        <div style={{ marginBottom: "15px" }}>
-          <label htmlFor="email" style={{ display: "block", marginBottom: "5px" }}>
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            style={{
-              width: "100%",
-              padding: "8px",
-              border: "1px solid #ccc",
-              borderRadius: "4px",
-            }}
-          />
-        </div>
+      {activeStep === 2 && (
+        <div className={`${styles.checkoutSection} ${styles.animateSlideIn}`}>
+          <h2>Payment Method</h2>
 
-        <div style={{ marginBottom: "15px" }}>
-          <label
-            htmlFor="streetAddress"
-            style={{ display: "block", marginBottom: "5px" }}
+          <div className={styles.paymentOptions}>
+            <div className={styles.optionGroup}>
+              <label
+                className={`${styles.optionCard} ${
+                  paymentMethod === "credit" ? styles.active : ""
+                }`}
+                onClick={() => setPaymentMethod("credit")}
+              >
+                <input
+                  type="radio"
+                  name="payment"
+                  checked={paymentMethod === "credit"}
+                  readOnly
+                />
+                <div className={styles.optionContent}>
+                  <span className={styles.optionTitle}>Credit/Debit Card</span>
+                  <div className={styles.cardIcons}>
+                    <img src="/icons/visa.svg" alt="Visa" />
+                    <img src="/icons/mastercard.svg" alt="Mastercard" />
+                    <img src="/icons/amex.svg" alt="American Express" />
+                  </div>
+                </div>
+              </label>
+
+              <label
+                className={`${styles.optionCard} ${
+                  paymentMethod === "paypal" ? styles.active : ""
+                }`}
+                onClick={() => setPaymentMethod("paypal")}
+              >
+                <input
+                  type="radio"
+                  name="payment"
+                  checked={paymentMethod === "paypal"}
+                  readOnly
+                />
+                <div className={styles.optionContent}>
+                  <span className={styles.optionTitle}>PayPal</span>
+                  <img
+                    src="/icons/paypal.svg"
+                    alt="PayPal"
+                    className={styles.paypalLogo}
+                  />
+                </div>
+              </label>
+
+              <label
+                className={`${styles.optionCard} ${
+                  paymentMethod === "applepay" ? styles.active : ""
+                }`}
+                onClick={() => setPaymentMethod("applepay")}
+              >
+                <input
+                  type="radio"
+                  name="payment"
+                  checked={paymentMethod === "applepay"}
+                  readOnly
+                />
+                <div className={styles.optionContent}>
+                  <span className={styles.optionTitle}>Union Pay</span>
+                  <img
+                    src="/icons/applepay.svg"
+                    alt="Apple Pay"
+                    className={styles.applePayLogo}
+                  />
+                </div>
+              </label>
+            </div>
+          </div>
+
+          {paymentMethod === "credit" && (
+            <div className={`${styles.creditCardForm} ${styles.animateFadeIn}`}>
+              <div className={styles.formGroup}>
+                <label>Card Number</label>
+                <input
+                  type="text"
+                  placeholder="1234 5678 9012 3456"
+                  className={styles.cardInput}
+                />
+              </div>
+
+              <div className={styles.formRow}>
+                <div className={styles.formGroup}>
+                  <label>Expiration Date</label>
+                  <input
+                    type="text"
+                    placeholder="MM/YY"
+                    className={styles.cardInput}
+                  />
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label>Security Code</label>
+                  <input type="text" placeholder="CVC" className={styles.cardInput} />
+                </div>
+              </div>
+
+              <div className={styles.formGroup}>
+                <label>Name on Card</label>
+                <input
+                  type="text"
+                  placeholder="John Smith"
+                  className={styles.cardInput}
+                />
+              </div>
+            </div>
+          )}
+
+          <div className={styles.buttonGroup}>
+            <button
+              type="button"
+              className={styles.backButton}
+              onClick={() => setActiveStep(1)}
+            >
+              Back
+            </button>
+            <button
+              type="button"
+              className={styles.continueButton}
+              onClick={() => setActiveStep(3)}
+            >
+              Review Order
+            </button>
+          </div>
+        </div>
+      )}
+
+      {activeStep === 3 && (
+        <div className={`${styles.checkoutSection} ${styles.animateSlideIn}`}>
+          <h2>Review Your Order</h2>
+
+          <div className={styles.orderSummary}>
+            <div className={styles.summarySection}>
+              <h3>Shipping Information</h3>
+              <p>{formData.name}</p>
+              <p>{formData.streetAddress}</p>
+              <p>
+                {formData.city}, {formData.postalCode}
+              </p>
+              <p>{formData.country}</p>
+              <p className={styles.deliveryEstimate}>
+                Estimated delivery: {calculateDeliveryDate()}
+              </p>
+            </div>
+
+            <div className={styles.summarySection}>
+              <h3>Payment Method</h3>
+              <p>
+                {paymentMethod === "credit" &&
+                  "Credit Card ending in •••• 4242"}
+                {paymentMethod === "paypal" && "PayPal"}
+                {paymentMethod === "applepay" && "Apple Pay"}
+              </p>
+            </div>
+
+            <div className={styles.summarySection}>
+              <h3>Order Items</h3>
+              <div className={styles.orderItems}>
+                {cartProducts.map((product) => (
+                  <div key={product._id} className={styles.orderItem}>
+                    <div className={styles.itemImage}>
+                      <img src={product.images?.[0]} alt={product.title} />
+                      <span className={styles.itemQuantity}>
+                        {product.quantity || 1}
+                      </span>
+                    </div>
+                    <div className={styles.itemDetails}>
+                      <h4>{product.title}</h4>
+                      <p className={styles.itemPrice}>
+                        $
+                        {(product.deals?.length > 0
+                          ? product.deals[0].finalPrice
+                          : product.price
+                        ??0 ).toFixed(2)}
+                        {product.deals?.length > 0 && (
+                          <span className={styles.originalPrice}>
+                            ${product.price.toFixed(2)}
+                          </span>
+                        )}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className={styles.orderTotal}>
+              <div className={styles.totalRow}>
+                <span>Subtotal</span>
+                <span>${(cartTotal ?? 0).toFixed(2)}</span>
+                </div>
+              <div className={styles.totalRow}>
+                <span>Shipping</span>
+                <span>{deliveryMethod === "standard" ? "FREE" : "$9.99"}</span>
+              </div>
+              <div className={`${styles.totalRow} ${styles.grandTotal}`}>
+                <span>Total</span>
+                <span>
+                  $
+                  {(deliveryMethod === "standard"
+                    ? cartTotal
+                    : cartTotal + 9.99
+                  ?? 0 ).toFixed(2)}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <form onSubmit={handleSubmit}>
+            <div className={`${styles.formGroup} ${styles.termsCheckbox}`}>
+              <input type="checkbox" id="terms" required />
+              <label htmlFor="terms">
+                I agree to the Terms & Conditions and Privacy Policy
+              </label>
+            </div>
+
+            <div className={styles.buttonGroup}>
+              <button
+                type="button"
+                className={styles.backButton}
+                onClick={() => setActiveStep(2)}
+              >
+                Back
+              </button>
+              <button
+                type="submit"
+                className={styles.submitButton}
+                disabled={isLoading}
+              >
+                {isLoading ? <span className={styles.spinner}></span> : "Place Order"}
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+
+      {activeStep === 4 && (
+        <div className={`${styles.successSection} ${styles.animateFadeIn}`}>
+          <div className={styles.successAnimation}>
+            <svg className={styles.checkmark} viewBox="0 0 52 52">
+              <circle
+                className={styles.checkmarkCircle}
+                cx="26"
+                cy="26"
+                r="25"
+                fill="none"
+              />
+              <path
+                className={styles.checkmarkCheck}
+                fill="none"
+                d="M14.1 27.2l7.1 7.2 16.7-16.8"
+              />
+            </svg>
+          </div>
+          <h2>Order Confirmed!</h2>
+          <p className={styles.successMessage}>
+            Thank you for your purchase. Your order has been confirmed and will
+            be shipped by {calculateDeliveryDate()}.
+          </p>
+          <p className={styles.confirmationEmail}>
+            A confirmation email has been sent to {formData.email}
+          </p>
+          <button
+            className={styles.continueShoppingButton}
+            onClick={() => router.push("/")}
           >
-            Street Address
-          </label>
-          <input
-            type="text"
-            id="streetAddress"
-            name="streetAddress"
-            value={formData.streetAddress}
-            onChange={handleChange}
-            required
-            style={{
-              width: "100%",
-              padding: "8px",
-              border: "1px solid #ccc",
-              borderRadius: "4px",
-            }}
-          />
+            Continue Shopping
+          </button>
+        </div>
+      )}
+
+      {/* Order Summary Sidebar */}
+      <div className={styles.orderSummarySidebar}>
+        <h3>Order Summary</h3>
+
+        <div className={styles.orderItemsPreview}>
+          {cartProducts.slice(0, 3).map((product) => (
+            <div key={product._id} className={styles.previewItem}>
+              <img src={product.images?.[0]} alt={product.title} />
+              <div className={styles.previewDetails}>
+                <span>{product.title}</span>
+                <span>
+                  {product.quantity || 1} × $
+                  {(product.deals?.length > 0
+                    ? product.deals[0].finalPrice
+                    : product.price
+                  ??0).toFixed(2)}
+                </span>
+              </div>
+            </div>
+          ))}
+          {cartProducts.length > 3 && (
+            <div className={styles.moreItems}>
+              +{cartProducts.length - 3} more items
+            </div>
+          )}
         </div>
 
-        <div style={{ marginBottom: "15px" }}>
-          <label htmlFor="city" style={{ display: "block", marginBottom: "5px" }}>
-            City
-          </label>
-          <input
-            type="text"
-            id="city"
-            name="city"
-            value={formData.city}
-            onChange={handleChange}
-            required
-            style={{
-              width: "100%",
-              padding: "8px",
-              border: "1px solid #ccc",
-              borderRadius: "4px",
-            }}
-          />
+        <div className={styles.orderTotals}>
+          <div className={styles.totalRow}>
+            <span>Subtotal</span>
+            <span>${(cartTotal ?? 0).toFixed(2)}</span>
+            </div>
+          <div className={styles.totalRow}>
+            <span>Shipping</span>
+            <span>{deliveryMethod === "standard" ? "FREE" : "$9.99"}</span>
+          </div>
+          <div className={`${styles.totalRow} ${styles.grandTotal}`}>
+            <span>Total</span>
+            <span>
+              $
+              {(deliveryMethod === "standard"
+                ? cartTotal
+                : cartTotal + 9.99
+              ?? 0).toFixed(2)}
+            </span>
+          </div>
         </div>
 
-        <div style={{ marginBottom: "15px" }}>
-          <label
-            htmlFor="postalCode"
-            style={{ display: "block", marginBottom: "5px" }}
-          >
-            Postal Code
-          </label>
-          <input
-            type="text"
-            id="postalCode"
-            name="postalCode"
-            value={formData.postalCode}
-            onChange={handleChange}
-            required
-            style={{
-              width: "100%",
-              padding: "8px",
-              border: "1px solid #ccc",
-              borderRadius: "4px",
-            }}
-          />
-        </div>
-
-        <div style={{ marginBottom: "15px" }}>
-          <label
-            htmlFor="country"
-            style={{ display: "block", marginBottom: "5px" }}
-          >
-            Country
-          </label>
-          <input
-            type="text"
-            id="country"
-            name="country"
-            value={formData.country}
-            onChange={handleChange}
-            required
-            style={{
-              width: "100%",
-              padding: "8px",
-              border: "1px solid #ccc",
-              borderRadius: "4px",
-            }}
-          />
-        </div>
-
-        <button
-          type="submit"
-          style={{
-            width: "100%",
-            padding: "10px",
-            backgroundColor: "#0070f3",
-            color: "white",
-            border: "none",
-            borderRadius: "4px",
-            cursor: "pointer",
-            fontSize: "16px",
-          }}
-        >
-          Complete Purchase
-        </button>
-      </form>
+        {activeStep < 4 && (
+          <div className={styles.secureCheckout}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11V11.99z"
+                fill="currentColor"
+              />
+            </svg>
+            <span>Secure Checkout</span>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

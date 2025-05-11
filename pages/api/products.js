@@ -13,20 +13,23 @@ export default async function handler(req, res) {
     const getActiveDeals = async (productIds) => {
       const now = new Date();
       const deals = await Deal.find({
-        product: { $in: productIds },
+        productId: { $in: productIds },
         isActive: true,
         startDate: { $lte: now },
-        endDate: { $gte: now }
-      }).populate('product');
-      
-      console.log('Active deals found:', deals.map(deal => ({
-        productId: deal.product._id,
-        discountType: deal.discountType,
-        discountAmount: deal.discountAmount,
-        startDate: deal.startDate,
-        endDate: deal.endDate
-      })));
-      
+        endDate: { $gte: now },
+      }).populate("productId");
+
+      console.log(
+        "Active deals found:",
+        deals.map((deal) => ({
+          productId: deal.product._id,
+          discountType: deal.discountType,
+          discountAmount: deal.discountAmount,
+          startDate: deal.startDate,
+          endDate: deal.endDate,
+        }))
+      );
+
       return deals;
     };
 
@@ -44,78 +47,106 @@ export default async function handler(req, res) {
       }
 
       // Fetch products belonging to the category
-      const products = await Product.find({ category: categoryDoc._id }).populate('deals');
-      
+      const products = await Product.find({
+        category: categoryDoc._id,
+      }).populate("deals");
+
       // Get active deals for these products
-      const deals = await getActiveDeals(products.map(p => p._id));
-      
+      const deals = await getActiveDeals(products.map((p) => p._id));
+
       // Add deal information to products
+      // const productsWithDeals = products.map(product => {
+      //   // Find the most recent active deal for this product
+      //   const productDeal = deals.find(deal => deal.product._id.toString() === product._id.toString());
+      //   if (productDeal) {
+      //     const discountAmount = productDeal.discountType === 'percentage'
+      //       ? (product.price * productDeal.discountAmount / 100)
+      //       : productDeal.discountAmount;
+      //     const finalPrice = product.price - discountAmount;
+
+      //     console.log('Product with deal:', {
+      //       productId: product._id,
+      //       title: product.title,
+      //       originalPrice: product.price,
+      //       discountType: productDeal.discountType,
+      //       discountAmount: productDeal.discountAmount,
+      //       finalPrice
+      //     });
+
+      //     return {
+      //       ...product.toObject(),
+      //       deal: {
+      //         discountType: productDeal.discountType,
+      //         discountAmount: productDeal.discountAmount,
+      //         finalPrice
+      //       }
+      //     };
+      //   }
+      //   return product.toObject();
+      // });
+
+      // Modify the productsWithDeals mapping to always include deals array
       const productsWithDeals = products.map(product => {
-        // Find the most recent active deal for this product
-        const productDeal = deals.find(deal => deal.product._id.toString() === product._id.toString());
-        if (productDeal) {
-          const discountAmount = productDeal.discountType === 'percentage' 
-            ? (product.price * productDeal.discountAmount / 100)
-            : productDeal.discountAmount;
-          const finalPrice = product.price - discountAmount;
-          
-          console.log('Product with deal:', {
-            productId: product._id,
-            title: product.title,
-            originalPrice: product.price,
-            discountType: productDeal.discountType,
-            discountAmount: productDeal.discountAmount,
-            finalPrice
-          });
-          
+        const productDeals = deals.filter(deal => 
+          deal.product._id.toString() === product._id.toString()
+        ).map(deal => {
+          const discountAmount = deal.discountType === 'percentage' 
+            ? (product.price * deal.discountAmount / 100)
+            : deal.discountAmount;
           return {
-            ...product.toObject(),
-            deal: {
-              discountType: productDeal.discountType,
-              discountAmount: productDeal.discountAmount,
-              finalPrice
-            }
+            ...deal.toObject(),
+            finalPrice: (product.price - discountAmount).toFixed(2)
           };
-        }
-        return product.toObject();
+        });
+
+        return {
+          ...product.toObject(),
+          // deals: productDeals,
+          // Add originalPrice for easier access
+          // originalPrice: product.price,
+          price: product.price?.toFixed(2) || '0.00', // Ensure price is formatted
+          deals: productDeals
+        };
       });
 
       return res.status(200).json(productsWithDeals);
     }
-    
 
     // If no category is specified, return all products
-    const products = await Product.find({}).populate('deals');
-    
+    const products = await Product.find({}).populate("deals");
+
     // Get active deals for all products
-    const deals = await getActiveDeals(products.map(p => p._id));
-    
+    const deals = await getActiveDeals(products.map((p) => p._id));
+
     // Add deal information to products
-    const productsWithDeals = products.map(product => {
+    const productsWithDeals = products.map((product) => {
       // Find the most recent active deal for this product
-      const productDeal = deals.find(deal => deal.product._id.toString() === product._id.toString());
+      const productDeal = deals.find(
+        (deal) => deal.product._id.toString() === product._id.toString()
+      );
       if (productDeal) {
-        const discountAmount = productDeal.discountType === 'percentage' 
-          ? (product.price * productDeal.discountAmount / 100)
-          : productDeal.discountAmount;
+        const discountAmount =
+          productDeal.discountType === "percentage"
+            ? (product.price * productDeal.discountAmount) / 100
+            : productDeal.discountAmount;
         const finalPrice = product.price - discountAmount;
-        
-        console.log('Product with deal:', {
+
+        console.log("Product with deal:", {
           productId: product._id,
           title: product.title,
           originalPrice: product.price,
           discountType: productDeal.discountType,
           discountAmount: productDeal.discountAmount,
-          finalPrice
+          finalPrice,
         });
-        
+
         return {
           ...product.toObject(),
           deal: {
             discountType: productDeal.discountType,
             discountAmount: productDeal.discountAmount,
-            finalPrice
-          }
+            finalPrice,
+          },
         };
       }
       return product.toObject();
