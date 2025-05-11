@@ -9,7 +9,7 @@ import Footer from "@/components/Footer";
 
 const teamMembers = [
   {
-    name: 'Haleema Imra',
+    name: 'Haleema Imran',
     role: 'Frontend Developer & UI/UX Designer',
     image: '/images/pfp.png',
   },
@@ -44,7 +44,7 @@ const AboutPage = () => {
         <header className="header-section">
           <h1 className="title">About Our Team</h1>
           <p className="subtitle">
-            A final-year BS Computer Science team from NUST, building an eCommerce platform for our Advanced DBMS & Web Technology course.
+            A second-year BS Computer Science team from NUST, building an eCommerce platform for our Advanced DBMS & Web Technology course.
           </p>
         </header>
 
