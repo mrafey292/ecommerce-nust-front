@@ -4,7 +4,8 @@ import { useCart } from "@/components/CartContext";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import styles from "@/styles/Checkout.module.css";
-
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 // Dynamically import the Map component to avoid SSR issues
 const MapWithNoSSR = dynamic(() => import("@/components/Map"), {
@@ -110,6 +111,9 @@ export default function CheckoutPage() {
   };
 
   return (
+    <>
+    <Header/>
+
     <div className={styles.checkoutContainer}>
     {/* <div class="leftColumn"> */}
 
@@ -600,5 +604,7 @@ export default function CheckoutPage() {
         )}
       </div>
     </div>
+    <Footer/>
+    </>
   );
 }

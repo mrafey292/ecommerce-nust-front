@@ -3,6 +3,9 @@ import { CartContext } from "@/components/CartContext";
 import axios from "axios";
 import { useRouter } from "next/router";
 import styles from "@/styles/Cart.module.css";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+
 
 export default function CartPage() {
   const { cartProducts, removeProduct, clearCart, addProduct } =
@@ -38,6 +41,11 @@ export default function CartPage() {
   }, 0);
 
   return (
+    <>
+  
+    <Header/>
+    
+    
     <div className={styles.cartContainer}>
       <h1 className={styles.cartHeader}>My cart</h1>
 
@@ -53,13 +61,13 @@ export default function CartPage() {
               const quantity = cartItem ? cartItem.quantity : 0;
               const price = product.deal ? product.deal.finalPrice : product.price;
               const totalPrice = price * quantity;
-
+              
               return (
                 <li key={product._id} className={styles.productItem}>
                   <div className={styles.productImageContainer}>
                     {product.images?.[0] && (
                       <img
-                        src={product.images[0]}
+                      src={product.images[0]}
                         alt={product.title}
                         className={styles.productImage}
                       />
@@ -156,6 +164,8 @@ export default function CartPage() {
         </>
       )}
     </div>
+    <Footer />
+    </>
   );
 }
 
