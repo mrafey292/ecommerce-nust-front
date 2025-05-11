@@ -1,12 +1,12 @@
 /* AboutPage.css */
 .about-container {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #1B263B;
-    background: #E0E1DD;
+    color: #3b1b1b;
+    background: white;
     padding: 1rem 1rem;
     text-align: center;
     min-height: 100vh;
-    animation: fadeIn 1.2s ease-in;
+    animation: fadeIn 0.6s ease-in;
   }
   
   .header-section .title {
@@ -18,7 +18,7 @@
   
   .subtitle {
     font-size: 1.1rem;
-    color: #415A77;
+    color: #774141;
     max-width: 700px;
     margin: 0 auto 1rem;
   }
@@ -68,7 +68,7 @@
     justify-content: center;
     gap: 0.5rem;
     margin-bottom: 0.5rem;
-    color: #0D1B2A;
+    color: #3d0808;
   }
   
   .map-frame {

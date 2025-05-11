@@ -10,6 +10,8 @@
     height: 100%;
     display: flex;
     flex-direction: column;
+      cursor: default; /* Default cursor for the card */
+
   }
   
   .card:hover {
@@ -35,7 +37,11 @@
     transform: scale(1.1);
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
   }
-  
+
+  .imageContainer {
+  cursor: pointer; /* Pointer cursor for clickable image */
+  margin-bottom: 10px;
+}
   .image {
     width: 100%;
     height: 160px;
@@ -50,13 +56,18 @@
   .card:hover .image {
     transform: scale(1.05);
   }
+
   
   .title {
+      cursor: pointer; /* Pointer cursor for clickable title */
     font-weight: 500;
     font-size: 1rem;
     margin: 0.5rem 0;
     flex-grow: 1;
   }
+  .title:hover {
+  color: #d83428;
+}
   
   .priceSection {
     display: flex;

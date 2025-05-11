@@ -1,8 +1,8 @@
 /* AboutPage.css */
 .about-container {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #1B263B;
-    background: #E0E1DD;
+    color: #3b1b1b;
+    background: white;
     padding: 3rem 2rem;
     text-align: center;
     min-height: 100vh;
@@ -17,7 +17,7 @@
   
   .subtitle {
     font-size: 1.1rem;
-    color: #415A77;
+    color: #774141;
     max-width: 700px;
     margin: 0 auto 2rem;
   }
