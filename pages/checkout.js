@@ -80,15 +80,7 @@ export default function CheckoutPage() {
     try {
       const orderData = {
         ...formData,
-        products: cartProducts.map(item => {
-          const product = products.find(p => p._id === item.id);
-          return {
-            productId: item.id,
-            quantity: item.quantity || 1,
-            price: product?.deal ? product.deal.finalPrice : product?.price || 0,
-            name: product?.title || "Product"
-          };
-        }),
+        cartProducts,
         paymentMethod,
         deliveryMethod,
         total: deliveryMethod === "standard" ? cartTotal : cartTotal + 9.99
