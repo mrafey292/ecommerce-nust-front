@@ -44,10 +44,10 @@ export default function TopAlertBar() {
         </div>
       </div>
 
-      <div className={styles.right}>
+      {/* <div className={styles.right}>
         <FaUserCircle size={20} />
         <Link href="/login" className={styles.link}>Log In</Link>
-      </div>
+      </div> */}
     </div>
   );
 }
