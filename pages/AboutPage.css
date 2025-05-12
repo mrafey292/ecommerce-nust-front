@@ -1,37 +1,37 @@
 /* AboutPage.css */
 .about-container {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #3b1b1b;
+    color: #000000;
     background: white;
     padding: 1rem 1rem;
     text-align: center;
     min-height: 100vh;
     animation: fadeIn 0.6s ease-in;
-  }
-  
-  .header-section .title {
+}
+
+.header-section .title {
     margin-top: 1rem;
     font-size: 2.5rem;
     font-weight: 700;
     margin-bottom: 0.5rem;
-  }
-  
-  .subtitle {
+}
+
+.subtitle {
     font-size: 1.1rem;
-    color: #774141;
+    color: #000000;
     max-width: 700px;
     margin: 0 auto 1rem;
-  }
-  
-  .team-section {
+}
+
+.team-section {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
     gap: 2rem;
     margin-bottom: 0rem;
-  }
-  
-  .team-card {
+}
+
+.team-card {
     background-color: #FFF;
     border-radius: 20px;
     box-shadow: 0 10px 20px rgba(0,0,0,0.1);
@@ -40,38 +40,78 @@
     transition: transform 0.3s;
     cursor: pointer;
     margin-bottom: -9rem;
-    margin-top: -2rem;
-  }
-  
-  .team-card:hover {
+    margin-top: -4rem;
+    position: relative;
+    z-index: 1;
+}
+
+.team-card:hover {
     transform: translateY(-8px);
     box-shadow: 0 12px 25px rgba(0,0,0,0.15);
-  }
-  
-  .profile-pic {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
+}
+
+.profile-pic-container {
+    width: 220px;
+    height: 220px;
+    margin: 0 auto 1rem;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-pic {
+    width: 180px;
+    height: 180px;
     object-fit: cover;
-    margin-bottom: 0rem;
-    border: 4px solid #d83428
-  }
-  
-  .location-section {
+    position: relative;
+    z-index: 2;
+    /* border-radius: 50%; */
+    transition: all 0.3s ease;
+    /* border: 3px solid white; */
+    /* box-shadow: 0 4px 8px rgba(0,0,0,0.1); */
+}
+
+
+.circle-background {
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    background: #d83428;
+    background: linear-gradient(to bottom, #d83428, rgba(255, 255, 255, 0));
+    border-radius: 50%;
+    z-index: 1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+
+.team-card:hover .profile-pic {
+    transform: scale(1.1);
+}
+.team-card:hover .circle-background {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.8;
+}
+
+.location-section {
     margin-top: 0rem;
-  }
-  
-  .location-section h2 {
+}
+
+.location-section h2 {
     font-size: 1.8rem;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
     margin-bottom: 0.5rem;
-    color: #3d0808;
-  }
-  
-  .map-frame {
+    color: #000000;
+}
+
+.map-frame {
     width: 100%;
     max-width: 800px;
     height: 400px;
@@ -80,43 +120,19 @@
     margin-top: .5rem;
     box-shadow: 0 10px 20px rgba(0,0,0,0.15);
     transition: transform 0.3s ease;
-  }
-  
-  .map-frame:hover {
+}
+
+.map-frame:hover {
     transform: scale(1.02);
-  }
-  
-  @keyframes fadeIn {
+}
+
+@keyframes fadeIn {
     from {
-      opacity: 0;
-      transform: translateY(30px);
+        opacity: 0;
+        transform: translateY(30px);
     }
     to {
-      opacity: 1;
-      transform: translateY(0);
+        opacity: 1;
+        transform: translateY(0);
     }
-
-    
-  }
-
-  /* .back-button {
-    background-color: #000000;
-    color: #E0E1DD;
-    border: none;
-    padding: 0.6rem 1.2rem;
-    border-radius: 30px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background 0.3s ease;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    font-style: normal;
-  }
-  
-  .back-button:hover {
-    scale: 1.05;
-    color: black;
-    background-color: #ffffff;
-    border: 2px solid black;
-  } */
-  
+}

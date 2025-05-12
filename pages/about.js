@@ -6,27 +6,25 @@ import './AboutPage.css';
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
-
 const teamMembers = [
   {
     name: 'Haleema Imran',
     role: 'Frontend Developer & UI/UX Designer',
-    image: '/images/pfp.png',
+    image: '/images/hal.png',
   },
   {
     name: 'Muhammed Rafey',
     role: 'Backend & Database Architect',
-    image: '/images/pfp.png',
+    image: '/images/rafey.png',
   },
   {
     name: 'Hassan Hameed',
     role: 'Full Stack Developer & DevOps',
-    image: '/images/pfp.png',
+    image: '/images/hassan.png',
   },
 ];
 
 const AboutPage = () => {
-
   return (
     <>
       <Header onCartClick={() => {}} />
@@ -37,10 +35,6 @@ const AboutPage = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
       >
-        {/* <a href="./" className="back-button">
-        ← 
-        </a> */}
-
         <header className="header-section">
           <h1 className="title">About Our Team</h1>
           <p className="subtitle">
@@ -55,7 +49,10 @@ const AboutPage = () => {
               className="team-card"
               whileHover={{ scale: 1.05 }}
             >
-              <img src={member.image} alt={member.name} className="profile-pic" />
+              <div className="profile-pic-container">
+                <div className="circle-background"></div>
+                <img src={member.image} alt={member.name} className="profile-pic" />
+              </div>
               <h3>{member.name}</h3>
               <p>{member.role}</p>
             </motion.div>
@@ -75,7 +72,7 @@ const AboutPage = () => {
           ></iframe>
         </section>
       </motion.div>
-        <Footer />
+      <Footer />
     </>
   );
 };
