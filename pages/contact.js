@@ -113,7 +113,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3>Phone</h3>
-                  <p>+971 (56) 657-4696</p>
+                  <p>+91 (331) 777-7989</p>
                 </div>
               </div>
 
@@ -126,7 +126,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3>Email</h3>
-                  <p>support@ecommerce.com</p>
+                  <p>support@khareedo.pk.com</p>
                 </div>
               </div>
 
@@ -139,7 +139,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3>Address</h3>
-                  <p>Al Arouba St., Al Mujjarah<br />Sharjah, UAE</p>
+                  <p>Indus Loop, Scholar&apos;s Avenue<br />H-12, Islamabad</p>
                 </div>
               </div>
             </div>

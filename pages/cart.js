@@ -78,8 +78,8 @@ export default function CartPage() {
                     <div className={styles.priceInfo}>
                       {product.deal ? (
                         <>
-                          <span className={styles.originalPrice}>${product.price.toFixed(2)}</span>
-                          <span className={styles.productPrice}>${price.toFixed(2)}</span>
+                          <span className={styles.originalPrice}>Rs.{product.price.toFixed(2)}</span>
+                          <span className={styles.productPrice}>Rs.{price.toFixed(2)}</span>
                           <span className={styles.discountBadge}>
                             {product.deal.discountType === 'percentage' 
                               ? `${product.deal.discountAmount}% OFF`
@@ -87,7 +87,7 @@ export default function CartPage() {
                           </span>
                         </>
                       ) : (
-                        <span className={styles.productPrice}>${price.toFixed(2)}</span>
+                        <span className={styles.productPrice}>Rs.{price.toFixed(2)}</span>
                       )}
                     </div>
                     <div className={styles.quantityRow}>
@@ -107,7 +107,7 @@ export default function CartPage() {
                         </button>
                       </div>
                       <div className={styles.productTotal}>
-                        ${totalPrice.toFixed(2)}
+                        Rs.{totalPrice.toFixed(2)}
                       </div>
                     </div>
                   </div>
@@ -121,7 +121,7 @@ export default function CartPage() {
 
             <div className={styles.summaryRow}>
               <span>Subtotal</span>
-              <span>${subtotal.toFixed(2)}</span>
+              <span>Rs.{subtotal.toFixed(2)}</span>
             </div>
 
             <div className={styles.summaryRow}>
@@ -135,7 +135,7 @@ export default function CartPage() {
 
             <div className={`${styles.summaryRow} ${styles.totalRow}`}>
               <span>Total</span>
-              <span>${subtotal.toFixed(2)}</span>
+              <span>Rs.{subtotal.toFixed(2)}</span>
             </div>
 
             <div className={styles.promoCode}>

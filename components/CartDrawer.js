@@ -107,8 +107,8 @@ export default function CartDrawer({ open, onClose }) {
                                 {product.deal ? (
                                   <>
                                     <div className={styles.priceInfo}>
-                                      <span className={styles.originalPrice}>${product.price.toFixed(2)}</span>
-                                      <span className={styles.unitPrice}>${price.toFixed(2)}</span>
+                                      <span className={styles.originalPrice}>Rs.{product.price.toFixed(2)}</span>
+                                      <span className={styles.unitPrice}>Rs.{price.toFixed(2)}</span>
                                       <span className={styles.discountBadge}>
                                         {product.deal.discountType === 'percentage' 
                                           ? `${product.deal.discountAmount}% OFF`
@@ -117,7 +117,7 @@ export default function CartDrawer({ open, onClose }) {
                                     </div>
                                   </>
                                 ) : (
-                                  <span className={styles.unitPrice}>${price.toFixed(2)}</span>
+                                  <span className={styles.unitPrice}>Rs.{price.toFixed(2)}</span>
                                 )}
                                 <div className={styles.quantityControls}>
                                   <button 
@@ -141,7 +141,7 @@ export default function CartDrawer({ open, onClose }) {
                                     +
                                   </button>
                                 </div>
-                                <span className={styles.totalPrice}>${totalPrice}</span>
+                                <span className={styles.totalPrice}>Rs.{totalPrice}</span>
                               </div>
                             </div>
                           </motion.li>
@@ -153,7 +153,7 @@ export default function CartDrawer({ open, onClose }) {
                   <div className={styles.orderSummary}>
                     <div className={styles.summaryRow}>
                       <span>Subtotal</span>
-                      <span>${subtotal}</span>
+                      <span>Rs.{subtotal}</span>
                     </div>
                     
                     <div className={styles.buttonGroup}>

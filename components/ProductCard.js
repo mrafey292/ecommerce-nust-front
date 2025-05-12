@@ -116,12 +116,12 @@ export default function ProductCard({ product, showBadge = false }) {
           {hasDeal ? (
             <>
               <span className={styles.oldPrice}>
-                ${product.price.toFixed(2)}
+                Rs.{product.price.toFixed(2)}
               </span>
-              <span className={styles.price}>${displayPrice.toFixed(2)}</span>
+              <span className={styles.price}>Rs.{displayPrice.toFixed(2)}</span>
             </>
           ) : (
-            <span className={styles.price}>${displayPrice.toFixed(2)}</span>
+            <span className={styles.price}>Rs.{displayPrice.toFixed(2)}</span>
           )}
         </div>
 

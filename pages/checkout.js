@@ -270,7 +270,7 @@ export default function CheckoutPage() {
                   <div className={styles.optionContent}>
                     <span className={styles.optionTitle}>Express Delivery</span>
                     <span className={styles.optionDetails}>1-2 business days</span>
-                    <span className={styles.optionPrice}>$9.99</span>
+                    <span className={styles.optionPrice}>Rs.9.99</span>
                   </div>
                 </label>
               </div>
@@ -448,10 +448,10 @@ export default function CheckoutPage() {
                         <div className={styles.itemDetails}>
                           <h4>{product.title || "Product"}</h4>
                           <p className={styles.itemPrice}>
-                            ${price?.toFixed(2) || "0.00"}
+                            Rs.{price?.toFixed(2) || "0.00"}
                             {product.deal && (
                               <span className={styles.originalPrice}>
-                                ${product.price?.toFixed(2) || "0.00"}
+                                Rs.{product.price?.toFixed(2) || "0.00"}
                               </span>
                             )}
                           </p>
@@ -465,16 +465,16 @@ export default function CheckoutPage() {
               <div className={styles.orderTotal}>
                 <div className={styles.totalRow}>
                   <span>Subtotal</span>
-                  <span>${cartTotal.toFixed(2)}</span>
+                  <span>Rs.{cartTotal.toFixed(2)}</span>
                 </div>
                 <div className={styles.totalRow}>
                   <span>Shipping</span>
-                  <span>{deliveryMethod === "standard" ? "FREE" : "$9.99"}</span>
+                  <span>{deliveryMethod === "standard" ? "FREE" : "Rs.9.99"}</span>
                 </div>
                 <div className={`${styles.totalRow} ${styles.grandTotal}`}>
                   <span>Total</span>
                   <span>
-                    ${(deliveryMethod === "standard" ? cartTotal : cartTotal + 9.99).toFixed(2)}
+                    Rs.{(deliveryMethod === "standard" ? cartTotal : cartTotal + 9.99).toFixed(2)}
                   </span>
                 </div>
               </div>
@@ -564,7 +564,7 @@ export default function CheckoutPage() {
                   <div className={styles.previewDetails}>
                     <span>{product.title || "Product"}</span>
                     <span>
-                      {quantity} × ${price?.toFixed(2) || "0.00"}
+                      {quantity} × Rs.{price?.toFixed(2) || "0.00"}
                     </span>
                   </div>
                 </div>
@@ -580,16 +580,16 @@ export default function CheckoutPage() {
           <div className={styles.orderTotals}>
             <div className={styles.totalRow}>
               <span>Subtotal</span>
-              <span>${cartTotal.toFixed(2)}</span>
+              <span>Rs.{cartTotal.toFixed(2)}</span>
             </div>
             <div className={styles.totalRow}>
               <span>Shipping</span>
-              <span>{deliveryMethod === "standard" ? "FREE" : "$9.99"}</span>
+              <span>{deliveryMethod === "standard" ? "FREE" : "Rs.9.99"}</span>
             </div>
             <div className={`${styles.totalRow} ${styles.grandTotal}`}>
               <span>Total</span>
               <span>
-                ${(deliveryMethod === "standard" ? cartTotal : cartTotal + 9.99).toFixed(2)}
+                Rs.{(deliveryMethod === "standard" ? cartTotal : cartTotal + 9.99).toFixed(2)}
               </span>
             </div>
           </div>
